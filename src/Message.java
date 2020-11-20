@@ -1,6 +1,7 @@
 public class Message {
     private String id;
     private String name;
+    private Participant participant;
 
     public Message(String id, String name) {
         this.id = id;
@@ -26,5 +27,13 @@ public class Message {
     @Override
     public String toString() {
         return "Id: " + id + "  Name: " + name;
+    }
+
+    public Participant getParticipant() {
+        return participant;
+    }
+
+    public void setParticipant(Participant participant) {
+        this.participant = participant;
     }
 }
