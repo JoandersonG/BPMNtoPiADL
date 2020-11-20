@@ -26,7 +26,7 @@ public class Message {
 
     @Override
     public String toString() {
-        return "Id: " + id + "  Name: " + name;
+        return "Id: " + id + "    Emissor: " + participant.getName() + "    Mensagem: " + name;
     }
 
     public Participant getParticipant() {
