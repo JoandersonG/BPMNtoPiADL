@@ -29,7 +29,7 @@ public class YaoqiangXMLParser {
     }
 
     private void parseParticipants(Document doc) {
-        NodeList participantsNodes = doc.getElementsByTagName("bpmn2:participant");
+        NodeList participantsNodes = doc.getElementsByTagName("participant");
         for (int i = 0; i < participantsNodes.getLength(); i++) {
             Node node = participantsNodes.item(i);
             if (node.getNodeType() == Node.ELEMENT_NODE) {
@@ -42,7 +42,7 @@ public class YaoqiangXMLParser {
     }
 
     private void parseMessage(Document doc) {
-        NodeList messageNodes = doc.getElementsByTagName("bpmn2:message");
+        NodeList messageNodes = doc.getElementsByTagName("message");
         for (int i = 0; i < messageNodes.getLength(); i++) {
             Node node = messageNodes.item(i);
             if (node.getNodeType() == Node.ELEMENT_NODE) {
