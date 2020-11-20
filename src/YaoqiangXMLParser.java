@@ -13,11 +13,13 @@ public class YaoqiangXMLParser {
 
     ArrayList<Participant> participants;
     ArrayList<Message> messages;
+    ArrayList<MessageFlow> messageFlows;
     DocumentBuilder builder;
 
     YaoqiangXMLParser() throws ParserConfigurationException {
         participants = new ArrayList<>();
         messages = new ArrayList<>();
+        messageFlows = new ArrayList<>();
         builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
     }
 
@@ -26,6 +28,8 @@ public class YaoqiangXMLParser {
         Document doc = builder.parse(filePath);
         parseParticipants(doc);
         parseMessage(doc);
+
+        parseMessageFlows(doc);
     }
 
     private void parseParticipants(Document doc) {
@@ -54,6 +58,48 @@ public class YaoqiangXMLParser {
         }
     }
 
+
+    private void parseMessageFlows(Document doc) {
+        NodeList messageFlowNodes = doc.getElementsByTagName("messageFlow");
+        for (int i = 0; i < messageFlowNodes.getLength(); i++) {
+            Node node = messageFlowNodes.item(i);
+            if (node.getNodeType() == Node.ELEMENT_NODE) {
+                Element messageFlow = (Element) node;
+                String id = messageFlow.getAttribute("id");
+                String sendId = messageFlow.getAttribute("sourceRef");
+                String receiveId = messageFlow.getAttribute("targetRef");
+                try {
+                    messageFlows.add(new MessageFlow(id,getParticipant(sendId),getParticipant(receiveId)));
+                } catch (IllegalArgumentException e) {
+                    System.out.println("Erro: um dos participantes envolvidos em  Message flow não foi encontrado");
+                }
+            }
+        }
+    }
+
+    private Participant getParticipant(String id) {
+        for (Participant p : participants) {
+            if (p.getId().equals(id)) {
+                return p;
+            }
+        }
+        return null;
+    }
+
+    //this method adds participantId into the message on messages array with messageId id
+    private void addParticipantToMessage(String messageId, String participantId) {
+        Participant participant = getParticipant(participantId);
+        if (participant == null) {
+            return;
+        }
+        for (Message m : messages) {
+            if (m.getId().equals(messageId)) {
+                m.setParticipant(participant);
+                return;
+            }
+        }
+    }
+
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder();
@@ -67,6 +113,12 @@ public class YaoqiangXMLParser {
         for (Message m : messages) {
             s.append("\t");
             s.append(m.toString());
+            s.append("\n");
+        }
+        s.append("MessageFlows: \n");
+        for (MessageFlow mf : messageFlows) {
+            s.append("\t");
+            s.append(mf.toString());
             s.append("\n");
         }
         return s.toString();
