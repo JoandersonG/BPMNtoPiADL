@@ -28,7 +28,7 @@ public class YaoqiangXMLParser {
         Document doc = builder.parse(filePath);
         parseParticipants(doc);
         parseMessage(doc);
-
+        parseMessageAssociation(doc);
         parseMessageFlows(doc);
     }
 
@@ -58,6 +58,18 @@ public class YaoqiangXMLParser {
         }
     }
 
+    private void parseMessageAssociation(Document doc) {
+        NodeList associationNodes = doc.getElementsByTagName("association");
+        for (int i = 0; i < associationNodes.getLength(); i++) {
+            Node node = associationNodes.item(i);
+            if (node.getNodeType() == Node.ELEMENT_NODE) {
+                Element association = (Element) node;
+                String messageId = association.getAttribute("sourceRef");
+                String participantId = association.getAttribute("targetRef");
+                addParticipantToMessage(messageId,participantId);
+            }
+        }
+    }
 
     private void parseMessageFlows(Document doc) {
         NodeList messageFlowNodes = doc.getElementsByTagName("messageFlow");
