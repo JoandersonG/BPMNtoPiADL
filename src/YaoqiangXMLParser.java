@@ -14,12 +14,14 @@ public class YaoqiangXMLParser {
     ArrayList<Participant> participants;
     ArrayList<Message> messages;
     ArrayList<MessageFlow> messageFlows;
+    ArrayList<Connector> connectors;
     DocumentBuilder builder;
 
     YaoqiangXMLParser() throws ParserConfigurationException {
         participants = new ArrayList<>();
         messages = new ArrayList<>();
         messageFlows = new ArrayList<>();
+        connectors = new ArrayList<>();
         builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
     }
 
@@ -30,6 +32,7 @@ public class YaoqiangXMLParser {
         parseMessage(doc);
         parseMessageAssociation(doc);
         parseMessageFlows(doc);
+        parseConnectors(doc);
     }
 
     private void parseParticipants(Document doc) {
@@ -89,6 +92,20 @@ public class YaoqiangXMLParser {
         }
     }
 
+    private void parseConnectors(Document doc) {
+        NodeList connectorNodes = doc.getElementsByTagName("sequenceFlow");
+        for (int i = 0; i < connectorNodes.getLength(); i++) {
+            Node node = connectorNodes.item(i);
+            if (node.getNodeType() == Node.ELEMENT_NODE) {
+                Element connector = (Element) node;
+                String id = connector.getAttribute("id");
+                String fromId = connector.getAttribute("sourceRef");
+                String toId = connector.getAttribute("targetRef");
+                connectors.add(new Connector(id, fromId, toId));
+            }
+        }
+    }
+
     private Participant getParticipant(String id) {
         for (Participant p : participants) {
             if (p.getId().equals(id)) {
@@ -131,6 +148,12 @@ public class YaoqiangXMLParser {
         for (MessageFlow mf : messageFlows) {
             s.append("\t");
             s.append(mf.toString());
+            s.append("\n");
+        }
+        s.append("Connectors: \n");
+        for (Connector c : connectors) {
+            s.append("\t");
+            s.append(c.toString());
             s.append("\n");
         }
         return s.toString();
