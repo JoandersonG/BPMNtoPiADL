@@ -115,6 +115,15 @@ public class YaoqiangXMLParser {
         return null;
     }
 
+    private Connector getConnector(String id) {
+        for (Connector c : connectors) {
+            if (c.getId().equals(id)) {
+                return c;
+            }
+        }
+        return null;
+    }
+
     //this method adds participantId into the message on messages array with messageId id
     private void addParticipantToMessage(String messageId, String participantId) {
         Participant participant = getParticipant(participantId);
