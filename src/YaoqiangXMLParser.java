@@ -15,6 +15,7 @@ public class YaoqiangXMLParser {
     ArrayList<Message> messages;
     ArrayList<MessageFlow> messageFlows;
     ArrayList<Connector> connectors;
+    ArrayList<ChoreographyTask> tasks;
     DocumentBuilder builder;
 
     YaoqiangXMLParser() throws ParserConfigurationException {
@@ -22,6 +23,7 @@ public class YaoqiangXMLParser {
         messages = new ArrayList<>();
         messageFlows = new ArrayList<>();
         connectors = new ArrayList<>();
+        tasks = new ArrayList<>();
         builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
     }
 
@@ -33,6 +35,7 @@ public class YaoqiangXMLParser {
         parseMessageAssociation(doc);
         parseMessageFlows(doc);
         parseConnectors(doc);
+        parseCoreographyTasks(doc);
     }
 
     private void parseParticipants(Document doc) {
@@ -106,6 +109,55 @@ public class YaoqiangXMLParser {
         }
     }
 
+    private void parseCoreographyTasks(Document doc) {
+        NodeList tasksList = doc.getElementsByTagName("choreographyTask");
+        for (int i = 0; i < tasksList.getLength(); i++) {
+            Node node = tasksList.item(i);
+            if (node.getNodeType() == Node.ELEMENT_NODE) {
+                Element task = (Element) node;
+                String id = task.getAttribute("id");
+                String initiating = task.getAttribute("initiatingParticipantRef");
+                String name = task.getAttribute("name");
+                String incoming = "";
+                String outgoing = "";
+                ArrayList<String> choreoParticipantIds = new ArrayList<>();
+                ArrayList<String> messageFlowIds = new ArrayList<>();
+                NodeList insideInfoNode = task.getChildNodes();
+                for (int j = 0; j < insideInfoNode.getLength(); j++) {
+                    Node itemNode = insideInfoNode.item(j);
+                    if (itemNode.getNodeType() == Node.ELEMENT_NODE) {
+                        Element item = (Element) itemNode;
+                        String itemName = item.getTagName();
+                        switch (itemName) {
+                            case "incoming":
+                                incoming = item.getTextContent();
+                                break;
+                            case "outgoing":
+                                outgoing = item.getTextContent();
+                                break;
+                            case "participantRef":
+                                choreoParticipantIds.add(item.getTextContent());
+                                break;
+                            case "messageFlowRef":
+                                messageFlowIds.add(item.getTextContent());
+                                break;
+                        }
+                    }
+                }
+                ChoreographyTask ct = new ChoreographyTask(
+                        id,
+                        name,
+                        getConnector(incoming),
+                        getConnector(outgoing),
+                        initiating,
+                        choreoParticipantIds,
+                        messageFlowIds
+                        );
+                tasks.add(ct);
+            }
+        }
+    }
+
     private Participant getParticipant(String id) {
         for (Participant p : participants) {
             if (p.getId().equals(id)) {
@@ -163,6 +215,12 @@ public class YaoqiangXMLParser {
         for (Connector c : connectors) {
             s.append("\t");
             s.append(c.toString());
+            s.append("\n");
+        }
+        s.append("ChoreographyTasks: \n");
+        for (ChoreographyTask ct : tasks) {
+            s.append("\t");
+            s.append(ct.toString());
             s.append("\n");
         }
         return s.toString();
