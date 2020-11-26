@@ -8,6 +8,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.ArrayList;
+import static java.lang.System.exit;
 
 public class YaoqiangXMLParser {
 
@@ -16,6 +17,7 @@ public class YaoqiangXMLParser {
     ArrayList<MessageFlow> messageFlows;
     ArrayList<Connector> connectors;
     ArrayList<ChoreographyTask> tasks;
+    ArrayList<StartEvent> startEvents;
     DocumentBuilder builder;
 
     YaoqiangXMLParser() throws ParserConfigurationException {
@@ -24,6 +26,7 @@ public class YaoqiangXMLParser {
         messageFlows = new ArrayList<>();
         connectors = new ArrayList<>();
         tasks = new ArrayList<>();
+        startEvents = new ArrayList<>();
         builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
     }
 
@@ -36,6 +39,7 @@ public class YaoqiangXMLParser {
         parseMessageFlows(doc);
         parseConnectors(doc);
         parseCoreographyTasks(doc);
+        parseStartEvents(doc);
     }
 
     private void parseParticipants(Document doc) {
@@ -157,6 +161,29 @@ public class YaoqiangXMLParser {
             }
         }
     }
+    private void parseStartEvents(Document doc) {
+
+        NodeList nodes = doc.getElementsByTagName("startEvent");
+        if (nodes.getLength() < 1) {
+          System.out.println("Erro: quantidade de eventos de começo inválida. Forneça ao menos um startEvent.");
+          exit(1);
+        }
+        for (int j = 0; j < nodes.getLength(); j++) {
+
+            Element start = (Element) nodes.item(j);
+            String startId = start.getAttribute("id");
+            String name = start.getAttribute("name");
+            NodeList outgoingNodeList = start.getElementsByTagName("outgoing");
+            ArrayList<String> outgoingIds = new ArrayList<>();
+            for (int i = 0; i < outgoingNodeList.getLength(); i++) {
+                Node outgoingNode = outgoingNodeList.item(i);
+                if (outgoingNode.getNodeType() == Node.ELEMENT_NODE) {
+                    outgoingIds.add(outgoingNode.getTextContent());
+                }
+            }
+            startEvents.add(new StartEvent(name, startId, outgoingIds));
+        }
+    }
 
     private Participant getParticipant(String id) {
         for (Participant p : participants) {
@@ -221,6 +248,12 @@ public class YaoqiangXMLParser {
         for (ChoreographyTask ct : tasks) {
             s.append("\t");
             s.append(ct.toString());
+            s.append("\n");
+        }
+        s.append("StartEvents: \n");
+        for (StartEvent se : startEvents) {
+            s.append("\t");
+            s.append(se.toString());
             s.append("\n");
         }
         return s.toString();
