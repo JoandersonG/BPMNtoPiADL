@@ -18,6 +18,7 @@ public class YaoqiangXMLParser {
     ArrayList<Connector> connectors;
     ArrayList<ChoreographyTask> tasks;
     ArrayList<StartEvent> startEvents;
+    ArrayList<EndEvent> endEvents;
     DocumentBuilder builder;
 
     YaoqiangXMLParser() throws ParserConfigurationException {
@@ -27,6 +28,7 @@ public class YaoqiangXMLParser {
         connectors = new ArrayList<>();
         tasks = new ArrayList<>();
         startEvents = new ArrayList<>();
+        endEvents = new ArrayList<>();
         builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
     }
 
@@ -40,6 +42,7 @@ public class YaoqiangXMLParser {
         parseConnectors(doc);
         parseCoreographyTasks(doc);
         parseStartEvents(doc);
+        parseEndEvents(doc);
     }
 
     private void parseParticipants(Document doc) {
@@ -194,6 +197,30 @@ public class YaoqiangXMLParser {
         return null;
     }
 
+    private void parseEndEvents(Document doc) {
+
+        NodeList nodes = doc.getElementsByTagName("endEvent");
+        if (nodes.getLength() < 1) {
+            System.out.println("Erro: quantidade de eventos de fim inválida. Forneça ao menos um endEvent.");
+            exit(1);
+        }
+        for (int j = 0; j < nodes.getLength(); j++) {
+
+            Element end = (Element) nodes.item(j);
+            String endId = end.getAttribute("id");
+            String name = end.getAttribute("name");
+            NodeList incomingNodeList = end.getElementsByTagName("incoming");
+            ArrayList<String> incomingIds = new ArrayList<>();
+            for (int i = 0; i < incomingNodeList.getLength(); i++) {
+                Node incomingNode = incomingNodeList.item(i);
+                if (incomingNode.getNodeType() == Node.ELEMENT_NODE) {
+                    incomingIds.add(incomingNode.getTextContent());
+                }
+            }
+            endEvents.add(new EndEvent(name, endId, incomingIds));
+        }
+    }
+
     private Connector getConnector(String id) {
         for (Connector c : connectors) {
             if (c.getId().equals(id)) {
@@ -254,6 +281,12 @@ public class YaoqiangXMLParser {
         for (StartEvent se : startEvents) {
             s.append("\t");
             s.append(se.toString());
+            s.append("\n");
+        }
+        s.append("EndEvents: \n");
+        for (EndEvent ee : endEvents) {
+            s.append("\t");
+            s.append(ee.toString());
             s.append("\n");
         }
         return s.toString();
