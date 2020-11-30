@@ -294,4 +294,12 @@ public class YaoqiangXMLParser {
         }
         return s.toString();
     }
+
+    public String generatePiADL() {
+        StringBuilder piADLcode = new StringBuilder();
+        for (StartEvent s : startEvents) {
+            piADLcode.append(s.toPiADL());
+        }
+        return piADLcode.toString();
+    }
 }
