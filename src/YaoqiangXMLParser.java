@@ -176,6 +176,9 @@ public class YaoqiangXMLParser {
             Element start = (Element) nodes.item(j);
             String startId = start.getAttribute("id");
             String name = start.getAttribute("name");
+            if (name == null || name.isEmpty()) {
+                name = "Start_" + (j+1);
+            }
             NodeList outgoingNodeList = start.getElementsByTagName("outgoing");
             ArrayList<String> outgoingIds = new ArrayList<>();
             for (int i = 0; i < outgoingNodeList.getLength(); i++) {
