@@ -1,22 +1,13 @@
 import java.util.ArrayList;
 
-public class StartEvent {
-    private String name;
+public class StartEvent extends Component{
     private String id;
     private ArrayList<String> outgoingIds;
 
     public StartEvent(String name, String id, ArrayList<String> outgoingIds) {
-        this.name = name;
+        super(name);
         this.id = id;
         this.outgoingIds = outgoingIds;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getId() {
