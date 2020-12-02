@@ -128,6 +128,7 @@ public class YaoqiangXMLParser {
             if (node.getNodeType() == Node.ELEMENT_NODE) {
                 Element connector = (Element) node;
                 String id = connector.getAttribute("id");
+                String name = "Fluxo_" + (i+1);
                 String fromId = connector.getAttribute("sourceRef");
                 String toId = connector.getAttribute("targetRef");
                 connectors.add(new Connector(name, id, getComponent(fromId), getComponent(toId)));
@@ -143,7 +144,7 @@ public class YaoqiangXMLParser {
                 Element task = (Element) node;
                 String id = task.getAttribute("id");
                 String initiating = task.getAttribute("initiatingParticipantRef");
-                String name = task.getAttribute("name");
+                String name = getTaskName(task.getAttribute("name"), id);
                 String incoming = "";
                 String outgoing = "";
                 ArrayList<String> choreoParticipantIds = new ArrayList<>();
@@ -191,6 +192,27 @@ public class YaoqiangXMLParser {
             }
         }
     }
+
+    /*
+    * Method for creating a valid task name given a name possibly with blank spaces and special characters
+    */
+    private String getTaskName(String name, String id) {
+        String[] splitName = name.split("[^a-zA-Z0-9_]");
+        StringBuilder sb = new StringBuilder();
+        sb.append("Comp");
+        for (String piece : splitName) {
+            if (piece.equals("e")){
+                continue;
+            }
+            if (!piece.matches("[0-9].*") && !piece.equals("") && piece.charAt(0) >= 97) { // turning first letter of each word capital
+                piece = piece.replaceFirst("[a-zA-Z]", String.valueOf((char) (piece.charAt(0) - 32)));
+            }
+            sb.append(piece);
+        }
+        sb.append("_").append(id);
+        return sb.toString();
+    }
+
     private void parseStartEvents(Document doc) {
 
         NodeList nodes = doc.getElementsByTagName("startEvent");
