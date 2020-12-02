@@ -33,12 +33,12 @@ public class StartEvent extends Component{
             s.append(outgoingId).append("\t");
         }
         s.append("\n");
-        return "    Name: '" + name + "'    id: " + id + "    Outgoing: " + s.toString();
+        return "    Name: '" + getName() + "'    id: " + id + "    Outgoing: " + s.toString();
     }
 
     public String toPiADL() {
         StringBuilder piADLcode = new StringBuilder();
-        piADLcode.append("component ").append(name).append(" is abstraction (){\n");
+        piADLcode.append("component ").append(getName()).append(" is abstraction (){\n");
         for (int i = 0; i < outgoingIds.size(); i++) {
             piADLcode.append("\tconnection ").append("saida_").append(i+1).append(" is out (Integer)\n");
         }

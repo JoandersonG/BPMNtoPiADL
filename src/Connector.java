@@ -47,6 +47,7 @@ public class Connector {
 
     @Override
     public String toString() {
-        return "Id:" + id + "    From: " + fromId + "    To: " + toId;
+        return "Id:" + id + "    From: " + (from != null ? from.getName() : "Sem nome") +
+                "    To: " + (to != null ? to.getName() : "Sem nome") ;
     }
 }

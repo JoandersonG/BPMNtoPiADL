@@ -102,6 +102,25 @@ public class YaoqiangXMLParser {
         }
     }
 
+    private Component getComponent(String id) {
+        for (StartEvent s : startEvents) {
+            if (s.getId().equals(id)) {
+                return s;
+            }
+        }
+        for (EndEvent e : endEvents) {
+            if (e.getId().equals(id)) {
+                return e;
+            }
+        }
+        for (ChoreographyTask ct : tasks) {
+            if (ct.getId().equals(id)) {
+                return ct;
+            }
+        }
+        return null;
+    }
+
     private void parseConnectors(Document doc) {
         NodeList connectorNodes = doc.getElementsByTagName("sequenceFlow");
         for (int i = 0; i < connectorNodes.getLength(); i++) {
@@ -111,7 +130,7 @@ public class YaoqiangXMLParser {
                 String id = connector.getAttribute("id");
                 String fromId = connector.getAttribute("sourceRef");
                 String toId = connector.getAttribute("targetRef");
-                connectors.add(new Connector(id, fromId, toId));
+                connectors.add(new Connector(name, id, getComponent(fromId), getComponent(toId)));
             }
         }
     }
@@ -151,6 +170,8 @@ public class YaoqiangXMLParser {
                         }
                     }
                 }
+                Connector in = getConnector(incoming);
+                Connector out = getConnector(outgoing);
                 ChoreographyTask ct = new ChoreographyTask(
                         id,
                         name,
@@ -161,6 +182,12 @@ public class YaoqiangXMLParser {
                         messageFlowIds
                         );
                 tasks.add(ct);
+                if (in != null) {
+                    in.setTo(ct);
+                }
+                if (out != null) {
+                    out.setFrom(ct);
+                }
             }
         }
     }
@@ -187,7 +214,14 @@ public class YaoqiangXMLParser {
                     outgoingIds.add(outgoingNode.getTextContent());
                 }
             }
-            startEvents.add(new StartEvent(name, startId, outgoingIds));
+            StartEvent newStart = new StartEvent(name, startId, outgoingIds);
+            startEvents.add(newStart);
+            for (String cId : outgoingIds) {
+                Connector cnn = getConnector(cId);
+                if (cnn != null) {
+                cnn.setFrom(newStart);
+                }
+            }
         }
     }
 
@@ -220,7 +254,14 @@ public class YaoqiangXMLParser {
                     incomingIds.add(incomingNode.getTextContent());
                 }
             }
-            endEvents.add(new EndEvent(name, endId, incomingIds));
+            EndEvent newEnd = new EndEvent(name, endId, incomingIds);
+            endEvents.add(newEnd);
+            for (String cId : incomingIds) {
+                Connector cnn = getConnector(cId);
+                if (cnn != null) {
+                    cnn.setTo(newEnd);
+                }
+            }
         }
     }
 

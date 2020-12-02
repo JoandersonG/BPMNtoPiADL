@@ -76,20 +76,21 @@ public class ChoreographyTask extends Component{
 
     @Override
     public String toString() {
-        StringBuilder pIds = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
+        sb.append("Task id: ").append(id).append("\n    Name: ")
+                .append(getName() != null ? getName() : "Sem Nome")
+                .append("\n    Incoming: ").append(incoming)
+                .append("\n    Outgoing: ").append(outgoing)
+                .append("\n    InitiatingId: ").append(initiatingParticipantId)
+                .append("\n    Participants:\n");
         for (String pId : participantIds) {
-            pIds.append("        Participant: ").append(pId).append("\n");
+            sb.append("        Participant: ").append(pId).append("\n");
         }
-        StringBuilder mIds = new StringBuilder();
+        sb.append("    MessageFlows: \n");
         for (String mId : messageFlowIds) {
-            mIds.append("        MessageFlow: ").append(mId).append("\n");
+            sb.append("        MessageFlow: ").append(mId).append("\n");
         }
-        return "Task id: " + id +
-                "\n    Name: " + name +
-                "\n    Incoming: " + incoming +
-                "\n    Outgoing: " + outgoing +
-                "\n    InitiatingId: " + initiatingParticipantId +
-                "\n    Participants:\n" + pIds.toString() +
-                "    MessageFlows: \n" + mIds.toString();
+
+        return sb.toString();
     }
 }
