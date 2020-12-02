@@ -175,8 +175,8 @@ public class YaoqiangXMLParser {
                 ChoreographyTask ct = new ChoreographyTask(
                         id,
                         name,
-                        getConnector(incoming),
-                        getConnector(outgoing),
+                        in,
+                        out,
                         initiating,
                         choreoParticipantIds,
                         messageFlowIds
@@ -340,6 +340,9 @@ public class YaoqiangXMLParser {
         StringBuilder piADLcode = new StringBuilder();
         for (StartEvent s : startEvents) {
             piADLcode.append(s.toPiADL());
+        }
+        for (Connector c : connectors) {
+            piADLcode.append(c.toPIADL());
         }
         return piADLcode.toString();
     }

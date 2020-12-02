@@ -41,6 +41,25 @@ public class Connector {
         this.name = name;
     }
 
+    public String toPIADL() {
+        StringBuilder piADLcode = new StringBuilder();
+        piADLcode.append("connector ").append(name).append(" is abstraction (){\n");
+        piADLcode.append("\tconnection ").append("de").append((from != null ? from.getName() : "Sem nome")).append(" is in (Integer)\n");
+        piADLcode.append("\tconnection ").append("para").append((to != null ? to.getName() : "Sem nome")).append(" is out (Integer)\n");
+        piADLcode.append("\tprotocol is {\n")
+                .append("\t\t(via ").append("de").append((from != null ? from.getName() : "Sem nome")).append(" receive Integer |")
+                .append(" via ").append("para").append((to != null ? to.getName() : "Sem nome")).append(" send Integer)*\n")
+                .append("\t}\n")
+                .append("\tbehavior is {\n")
+                .append("\t\tvia ").append("de").append((from != null ? from.getName() : "Sem nome")
+        ).append(" receive x : Integer\n")
+                .append("\t\tvia ").append("para").append((to != null ? to.getName() : "Sem nome")).append(" send x\n")
+                .append("\t\tbehavior()\n")
+                .append("\t}\n")
+                .append("}\n");
+        return piADLcode.toString();
+    }
+
     public void setTo(Component to) {
         this.to = to;
     }
