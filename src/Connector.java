@@ -1,12 +1,16 @@
 public class Connector {
+    private String name;
     private String id;
+    private Component from;
     private String fromId;
+    private Component to;
     private String toId;
 
-    public Connector(String id, String fromId, String toId) {
+    public Connector(String name, String id, Component from, Component to) {
+        this.name = name;
         this.id = id;
-        this.fromId = fromId;
-        this.toId = toId;
+        this.from = from;
+        this.to = to;
     }
 
     public String getId() {
@@ -17,20 +21,28 @@ public class Connector {
         this.id = id;
     }
 
-    public String getFromId() {
-        return fromId;
+    public Component getFrom() {
+        return from;
     }
 
-    public void setFromId(String fromId) {
-        this.fromId = fromId;
+    public void setFrom(Component from) {
+        this.from = from;
     }
 
-    public String getToId() {
-        return toId;
+    public Component getTo() {
+        return to;
     }
 
-    public void setToId(String toId) {
-        this.toId = toId;
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setTo(Component to) {
+        this.to = to;
     }
 
     @Override
