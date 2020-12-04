@@ -144,7 +144,8 @@ public class YaoqiangXMLParser {
                 Element task = (Element) node;
                 String id = task.getAttribute("id");
                 String initiating = task.getAttribute("initiatingParticipantRef");
-                String name = getValidName(task.getAttribute("name"), id);
+                String name = task.getAttribute("name");
+                id = getValidId(name, id);
                 String incoming = "";
                 String outgoing = "";
                 ArrayList<String> choreoParticipantIds = new ArrayList<>();
@@ -196,7 +197,7 @@ public class YaoqiangXMLParser {
     /*
     * Method for creating a valid task name given a name possibly with blank spaces and special characters
     */
-    private String getValidName(String name, String id) {
+    private String getValidId(String name, String id) {
         String[] splitName = name.split("[^a-zA-Z0-9_]");
         StringBuilder sb = new StringBuilder();
         if (splitName[0].matches("[0-9].*")) {
@@ -225,13 +226,11 @@ public class YaoqiangXMLParser {
         for (int j = 0; j < nodes.getLength(); j++) {
 
             Element start = (Element) nodes.item(j);
-            String startId = start.getAttribute("id");
             String name = start.getAttribute("name");
             if (name == null || name.isEmpty()) {
                 name = "Start_" + (j+1);
-            } else {
-                name = getValidName(name, String.valueOf(j+1));
             }
+            String startId = getValidId(name, String.valueOf(j+1));
             NodeList outgoingNodeList = start.getElementsByTagName("outgoing");
             ArrayList<String> outgoingIds = new ArrayList<>();
             for (int i = 0; i < outgoingNodeList.getLength(); i++) {
@@ -270,13 +269,11 @@ public class YaoqiangXMLParser {
         for (int j = 0; j < nodes.getLength(); j++) {
 
             Element end = (Element) nodes.item(j);
-            String endId = end.getAttribute("id");
             String name = end.getAttribute("name");
             if (name == null || name.isEmpty()) {
                 name = "End_" + (j+1);
-            } else {
-                name = getValidName(name, String.valueOf(j+1));
             }
+            String endId = getValidId(name, String.valueOf(j+1));
             NodeList incomingNodeList = end.getElementsByTagName("incoming");
             ArrayList<String> incomingIds = new ArrayList<>();
             for (int i = 0; i < incomingNodeList.getLength(); i++) {

@@ -28,7 +28,7 @@ public class StartEvent extends Component{
 
     public String toPiADL() {
         StringBuilder piADLcode = new StringBuilder();
-        piADLcode.append("component ").append(getName()).append(" is abstraction (){\n");
+        piADLcode.append("component ").append(getId()).append(" is abstraction (){\n");
         for (int i = 0; i < outgoingIds.size(); i++) {
             piADLcode.append("\tconnection ").append("saida_").append(i+1).append(" is out (Integer)\n");
         }
