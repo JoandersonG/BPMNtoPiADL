@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 
 public class ChoreographyTask extends Component{
-    private String id;
     private Connector incoming;
     private Connector outgoing;
     private String initiatingParticipantId;
@@ -17,21 +16,12 @@ public class ChoreographyTask extends Component{
             ArrayList<String> participantIds,
             ArrayList<String> messageFlowIds
     ) {
-        super(name);
-        this.id = id;
+        super(name, id);
         this.incoming = incoming;
         this.outgoing = outgoing;
         this.initiatingParticipantId = initiatingParticipantId;
         this.participantIds = participantIds;
         this.messageFlowIds = messageFlowIds;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public Connector getIncoming() {
@@ -77,7 +67,7 @@ public class ChoreographyTask extends Component{
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Task id: ").append(id).append("\n    Name: ")
+        sb.append("Task id: ").append(getId()).append("\n    Name: ")
                 .append(getName() != null ? getName() : "Sem Nome")
                 .append("\n    Incoming: ").append(incoming)
                 .append("\n    Outgoing: ").append(outgoing)

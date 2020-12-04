@@ -1,21 +1,11 @@
 import java.util.ArrayList;
 
 public class EndEvent extends Component {
-    private String id;
     private ArrayList<String> incomingIds;
 
     public EndEvent(String name, String id, ArrayList<String> incomingIds) {
-        super(name);
-        this.id = id;
+        super(name, id);
         this.incomingIds = incomingIds;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public ArrayList<String> getIncomingIds() {
@@ -33,6 +23,6 @@ public class EndEvent extends Component {
             s.append(incomingId).append("\t");
         }
         s.append("\n");
-        return "    Name: '" + getName() + "'    id: " + id + "    Incoming: " + s.toString();
+        return "    Name: '" + getName() + "'    id: " + getId() + "    Incoming: " + s.toString();
     }
 }

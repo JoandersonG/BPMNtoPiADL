@@ -1,21 +1,11 @@
 import java.util.ArrayList;
 
 public class StartEvent extends Component{
-    private String id;
     private ArrayList<String> outgoingIds;
 
     public StartEvent(String name, String id, ArrayList<String> outgoingIds) {
-        super(name);
-        this.id = id;
+        super(name, id);
         this.outgoingIds = outgoingIds;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public ArrayList<String> getOutgoingIds() {
@@ -33,7 +23,7 @@ public class StartEvent extends Component{
             s.append(outgoingId).append("\t");
         }
         s.append("\n");
-        return "    Name: '" + getName() + "'    id: " + id + "    Outgoing: " + s.toString();
+        return "    Name: '" + getName() + "'    id: " + getId() + "    Outgoing: " + s.toString();
     }
 
     public String toPiADL() {
