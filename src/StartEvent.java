@@ -49,7 +49,7 @@ public class StartEvent extends Component{
         }
         piADLcode.append("\t\tbehavior()\n")
                 .append("\t}\n")
-                .append("}");
+                .append("}\n");
         return piADLcode.toString();
     }
 }
