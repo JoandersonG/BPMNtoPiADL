@@ -372,6 +372,9 @@ public class YaoqiangXMLParser {
         for (Connector c : connectors) {
             piADLcode.append(c.toPIADL());
         }
+        for (ChoreographyTask ct : tasks) {
+            piADLcode.append(ct.toPiADL());
+        }
         return piADLcode.toString();
     }
 }

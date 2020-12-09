@@ -83,4 +83,23 @@ public class ChoreographyTask extends Component{
 
         return sb.toString();
     }
+
+    public String toPiADL() {
+        StringBuilder piADLcode = new StringBuilder();
+        piADLcode.append("component ").append(getId()).append(" is abstraction (){\n")
+                .append("\tconnection ").append("entrada").append(" is in (Integer)\n")
+                .append("\tconnection ").append("saida").append(" is out (Integer)\n")
+                .append("\tprotocol is {\n")
+                .append("\t\t(via ").append("entrada").append(" receive Integer |")
+                .append(" via ").append("saida").append(" send Integer)*\n")
+                .append("\t}\n")
+                .append("\tbehavior is {\n")
+                .append("\t\tvia ").append("entrada").append(" receive x : Integer\n")
+                .append("\t\tvia ").append("saida")
+                .append(" send x\n")
+                .append("\t\tbehavior()\n")
+                .append("\t}\n")
+                .append("}\n");
+        return piADLcode.toString();
+    }
 }
