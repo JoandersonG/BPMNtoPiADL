@@ -237,7 +237,8 @@ public class YaoqiangXMLParser {
                         name,
                         id,
                         incoming,
-                        outgoing
+                        outgoing,
+                        gatewayType.equals("exclusiveGateway") ? Gateway.Type.EXCLUSIVE_GATEWAY : Gateway.Type.PARALLEL_GATEWAY
                 );
                 gateways.add(eg);
                 for (Connector in : incoming) {
