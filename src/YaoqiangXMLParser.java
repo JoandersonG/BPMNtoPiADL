@@ -19,6 +19,7 @@ public class YaoqiangXMLParser {
     ArrayList<ChoreographyTask> tasks;
     ArrayList<StartEvent> startEvents;
     ArrayList<EndEvent> endEvents;
+    ArrayList<Gateway> gateways;
     DocumentBuilder builder;
 
     YaoqiangXMLParser() throws ParserConfigurationException {
@@ -29,6 +30,7 @@ public class YaoqiangXMLParser {
         tasks = new ArrayList<>();
         startEvents = new ArrayList<>();
         endEvents = new ArrayList<>();
+        gateways = new ArrayList<>();
         builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
     }
 
@@ -43,6 +45,8 @@ public class YaoqiangXMLParser {
         parseCoreographyTasks(doc);
         parseStartEvents(doc);
         parseEndEvents(doc);
+        parseGateways(doc);
+        System.out.println();
     }
 
     private void parseParticipants(Document doc) {
@@ -189,6 +193,58 @@ public class YaoqiangXMLParser {
                 }
                 if (out != null) {
                     out.setFrom(ct);
+                }
+            }
+        }
+    }
+
+    private void parseGateways(Document doc) {
+        parseGatewayByType(doc, "exclusiveGateway");
+        parseGatewayByType(doc, "parallelGateway");
+    }
+    private void parseGatewayByType(Document doc, String gatewayType) {
+        NodeList gatewayList = doc.getElementsByTagName(gatewayType);
+        for (int i = 0; i < gatewayList.getLength(); i++) {
+            Node node = gatewayList.item(i);
+            if (node.getNodeType() == Node.ELEMENT_NODE) {
+                Element gateway = (Element) node;
+                String id = gateway.getAttribute("id");
+                String name = gateway.getAttribute("name");
+                id = getValidId(name != null ? name : gatewayType, id);
+                ArrayList<Connector> incoming = new ArrayList<>();
+                ArrayList<Connector> outgoing = new ArrayList<>();
+                NodeList insideInfoNode = gateway.getChildNodes();
+                for (int j = 0; j < insideInfoNode.getLength(); j++) {
+                    Node itemNode = insideInfoNode.item(j);
+                    if (itemNode.getNodeType() == Node.ELEMENT_NODE) {
+                        Element item = (Element) itemNode;
+                        String itemName = item.getTagName();
+                        switch (itemName) {
+                            case "incoming":
+                                Connector inc = getConnector(item.getTextContent());
+                                if (inc != null){
+                                    incoming.add(inc);
+                                }
+
+                                break;
+                            case "outgoing":
+                                outgoing.add(getConnector(item.getTextContent()));
+                                break;
+                        }
+                    }
+                }
+                Gateway eg = new Gateway(
+                        name,
+                        id,
+                        incoming,
+                        outgoing
+                );
+                gateways.add(eg);
+                for (Connector in : incoming) {
+                    in.setTo(eg);
+                }
+                for (Connector out : outgoing) {
+                    out.setFrom(eg);
                 }
             }
         }
@@ -359,6 +415,12 @@ public class YaoqiangXMLParser {
         for (EndEvent ee : endEvents) {
             s.append("\t");
             s.append(ee.toString());
+            s.append("\n");
+        }
+        s.append("Gateways: \n");
+        for (Gateway eg : gateways) {
+            s.append("\t");
+            s.append(eg.toString());
             s.append("\n");
         }
         return s.toString();
