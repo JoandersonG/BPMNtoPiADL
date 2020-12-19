@@ -210,7 +210,7 @@ public class YaoqiangXMLParser {
                 Element gateway = (Element) node;
                 String id = gateway.getAttribute("id");
                 String name = gateway.getAttribute("name");
-                id = getValidId(name != null ? name : gatewayType, id);
+                id = getValidId(name != null ? !name.equals("") ? name : gatewayType : gatewayType, id);
                 ArrayList<Connector> incoming = new ArrayList<>();
                 ArrayList<Connector> outgoing = new ArrayList<>();
                 NodeList insideInfoNode = gateway.getChildNodes();
