@@ -7,6 +7,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import static java.lang.System.exit;
 
@@ -146,10 +147,9 @@ public class YaoqiangXMLParser {
             Node node = tasksList.item(i);
             if (node.getNodeType() == Node.ELEMENT_NODE) {
                 Element task = (Element) node;
-                String id = task.getAttribute("id");
                 String initiating = task.getAttribute("initiatingParticipantRef");
                 String name = task.getAttribute("name");
-                id = getValidId(name, id);
+                String id = name.equals("") ? getValidId("Task", String.valueOf(i + 1)) : getValidId(name, String.valueOf(i + 1));
                 String incoming = "";
                 String outgoing = "";
                 ArrayList<String> choreoParticipantIds = new ArrayList<>();
@@ -208,9 +208,8 @@ public class YaoqiangXMLParser {
             Node node = gatewayList.item(i);
             if (node.getNodeType() == Node.ELEMENT_NODE) {
                 Element gateway = (Element) node;
-                String id = gateway.getAttribute("id");
                 String name = gateway.getAttribute("name");
-                id = getValidId(name != null ? !name.equals("") ? name : gatewayType : gatewayType, id);
+                String id = getValidId(name.equals("")? "Gateway" : name, String.valueOf(i + 1));
                 ArrayList<Connector> incoming = new ArrayList<>();
                 ArrayList<Connector> outgoing = new ArrayList<>();
                 NodeList insideInfoNode = gateway.getChildNodes();
@@ -251,10 +250,15 @@ public class YaoqiangXMLParser {
         }
     }
 
+    public static String removerAcentos(String str) {
+        return Normalizer.normalize(str, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
+    }
+
     /*
     * Method for creating a valid task name given a name possibly with blank spaces and special characters
     */
     private String getValidId(String name, String id) {
+        name = removerAcentos(name);
         String[] splitName = name.split("[^a-zA-Z0-9_]");
         StringBuilder sb = new StringBuilder();
         if (splitName[0].matches("[0-9].*")) {
@@ -269,8 +273,39 @@ public class YaoqiangXMLParser {
             }
             sb.append(piece);
         }
-        sb.append("_").append(id);
+        if (thereIsSuchId(sb.toString())) {
+            sb.append(id);
+        }
+        int i = 1;
+        while (thereIsSuchId(sb.toString())) {
+            sb.append(i);
+            i++;
+        }
         return sb.toString();
+    }
+
+    private boolean thereIsSuchId(String id) {
+        for (ChoreographyTask t : tasks) {
+            if (t.getId().equals(id)) {
+                return true;
+            }
+        }
+        for (StartEvent s : startEvents) {
+            if (s.getId().equals(id)) {
+                return true;
+            }
+        }
+        for (EndEvent e : endEvents) {
+            if (e.getId().equals(id)) {
+                return true;
+            }
+        }
+        for (Gateway g : gateways) {
+            if (g.getId().equals(id)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void parseStartEvents(Document doc) {
@@ -285,7 +320,7 @@ public class YaoqiangXMLParser {
             Element start = (Element) nodes.item(j);
             String name = start.getAttribute("name");
             if (name == null || name.isEmpty()) {
-                name = "Start_" + (j+1);
+                name = "Start";
             }
             String startId = getValidId(name, String.valueOf(j+1));
             NodeList outgoingNodeList = start.getElementsByTagName("outgoing");
@@ -328,7 +363,7 @@ public class YaoqiangXMLParser {
             Element end = (Element) nodes.item(j);
             String name = end.getAttribute("name");
             if (name == null || name.isEmpty()) {
-                name = "End_" + (j+1);
+                name = "End";
             }
             String endId = getValidId(name, String.valueOf(j+1));
             NodeList incomingNodeList = end.getElementsByTagName("incoming");
