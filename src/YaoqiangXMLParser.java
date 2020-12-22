@@ -441,6 +441,9 @@ public class YaoqiangXMLParser {
         for (EndEvent e : endEvents) {
             piADLcode.append(e.toPiADL());
         }
+        for (Gateway g : gateways) {
+            piADLcode.append(g.toPiADL());
+        }
         return piADLcode.toString();
     }
 }
