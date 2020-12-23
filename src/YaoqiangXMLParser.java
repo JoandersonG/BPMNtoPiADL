@@ -44,6 +44,7 @@ public class YaoqiangXMLParser {
         parseMessageFlows(doc);
         parseConnectors(doc);
         parseCoreographyTasks(doc);
+        parseSubChoreographyTasks(doc);
         parseStartEvents(doc);
         parseEndEvents(doc);
         parseGateways(doc);
@@ -187,6 +188,63 @@ public class YaoqiangXMLParser {
                         choreoParticipantIds,
                         messageFlowIds
                         );
+                tasks.add(ct);
+                if (in != null) {
+                    in.setTo(ct);
+                }
+                if (out != null) {
+                    out.setFrom(ct);
+                }
+            }
+        }
+    }
+
+    private void parseSubChoreographyTasks(Document doc) {
+        NodeList tasksList = doc.getElementsByTagName("subChoreography");
+        for (int i = 0; i < tasksList.getLength(); i++) {
+            Node node = tasksList.item(i);
+            if (node.getNodeType() == Node.ELEMENT_NODE) {
+                Element task = (Element) node;
+                String initiating = task.getAttribute("initiatingParticipantRef");
+                String name = task.getAttribute("name");
+                String id = name.equals("") ? getValidId("SubTask", String.valueOf(i + 1)) : getValidId(name, String.valueOf(i + 1));
+                String incoming = "";
+                String outgoing = "";
+                ArrayList<String> choreoParticipantIds = new ArrayList<>();
+                ArrayList<String> messageFlowIds = new ArrayList<>();
+                NodeList insideInfoNode = task.getChildNodes();
+                for (int j = 0; j < insideInfoNode.getLength(); j++) {
+                    Node itemNode = insideInfoNode.item(j);
+                    if (itemNode.getNodeType() == Node.ELEMENT_NODE) {
+                        Element item = (Element) itemNode;
+                        String itemName = item.getTagName();
+                        switch (itemName) {
+                            case "incoming":
+                                incoming = item.getTextContent();
+                                break;
+                            case "outgoing":
+                                outgoing = item.getTextContent();
+                                break;
+                            case "participantRef":
+                                choreoParticipantIds.add(item.getTextContent());
+                                break;
+                            case "messageFlowRef":
+                                messageFlowIds.add(item.getTextContent());
+                                break;
+                        }
+                    }
+                }
+                Connector in = getConnector(incoming);
+                Connector out = getConnector(outgoing);
+                ChoreographyTask ct = new ChoreographyTask(
+                        id,
+                        name,
+                        in,
+                        out,
+                        initiating,
+                        choreoParticipantIds,
+                        messageFlowIds
+                );
                 tasks.add(ct);
                 if (in != null) {
                     in.setTo(ct);
