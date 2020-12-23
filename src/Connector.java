@@ -41,7 +41,7 @@ public class Connector {
         this.name = name;
     }
 
-    public String toPIADL() {
+    public String toPiADL() {
         StringBuilder piADLcode = new StringBuilder();
         piADLcode.append("connector ").append(name).append(" is abstraction (){\n");
         piADLcode.append("\tconnection ").append("de").append((from != null ? from.getId() : "Sem id")).append(" is in (Integer)\n");
