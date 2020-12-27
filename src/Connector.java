@@ -1,5 +1,6 @@
 public class Connector {
     private String name;
+    private String instanceName;
     private String id;
     private Component from;
     private String fromId;
@@ -11,6 +12,14 @@ public class Connector {
         this.id = id;
         this.from = from;
         this.to = to;
+    }
+
+    public String getInstanceName() {
+        return instanceName;
+    }
+
+    public void setInstanceName(String instanceName) {
+        this.instanceName = instanceName;
     }
 
     public String getId() {
