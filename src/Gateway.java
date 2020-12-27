@@ -135,6 +135,7 @@ public class Gateway extends Component {
                 s.append("\t\tchoose {\n");
                 for (int j = 0; j < outgoings.size(); j++) {
                     s.append("\t\t\tvia ").append("saida").append(j+1).append(" send x1\n");
+                    s.append("\t\t\tbehavior()\n");
                     if (j+1 == outgoings.size()) {
                         s.append("\t\t}\n");
                     } else {
@@ -155,6 +156,7 @@ public class Gateway extends Component {
                     s.append("\t\t\tchoose {\n");
                     for (int j = 0; j < outgoings.size(); j++) {
                         s.append("\t\t\t\tvia ").append("saida").append(j+1).append(" send x").append(i+1).append("\n");
+                        s.append("\t\t\t\tbehavior()\n");
                         if (j+1 == outgoings.size()) {
                             s.append("\t\t\t}\n");
                         } else {
@@ -169,7 +171,6 @@ public class Gateway extends Component {
                 }
             }
         }
-        s.append("\t\tbehavior()\n");
         s.append("\t}\n");
         s.append("}\n");
         return s.toString();
