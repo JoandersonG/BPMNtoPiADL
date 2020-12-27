@@ -264,8 +264,8 @@ public class YaoqiangXMLParser {
                 Element gateway = (Element) node;
                 String name = gateway.getAttribute("name");
                 String id = getValidId(name.equals("")? "Gateway" : name, String.valueOf(i + 1));
-                ArrayList<Connector> incoming = new ArrayList<>();
-                ArrayList<Connector> outgoing = new ArrayList<>();
+                ArrayList<String> incomings = new ArrayList<>();
+                ArrayList<String> outgoings = new ArrayList<>();
                 NodeList insideInfoNode = gateway.getChildNodes();
                 for (int j = 0; j < insideInfoNode.getLength(); j++) {
                     Node itemNode = insideInfoNode.item(j);
@@ -274,14 +274,10 @@ public class YaoqiangXMLParser {
                         String itemName = item.getTagName();
                         switch (itemName) {
                             case "incoming":
-                                Connector inc = getConnector(item.getTextContent());
-                                if (inc != null){
-                                    incoming.add(inc);
-                                }
-
+                                    incomings.add(item.getTextContent());
                                 break;
                             case "outgoing":
-                                outgoing.add(getConnector(item.getTextContent()));
+                                outgoings.add(item.getTextContent());
                                 break;
                         }
                     }
@@ -289,16 +285,22 @@ public class YaoqiangXMLParser {
                 Gateway eg = new Gateway(
                         name,
                         id,
-                        incoming,
-                        outgoing,
+                        incomings,
+                        outgoings,
                         gatewayType.equals("exclusiveGateway") ? Gateway.Type.EXCLUSIVE_GATEWAY : Gateway.Type.PARALLEL_GATEWAY
                 );
                 gateways.add(eg);
-                for (Connector in : incoming) {
-                    in.setTo(eg);
+                for (String in : incomings) {
+                    Connector c = getConnector(in);
+                    if (c!= null) {
+                        c.setTo(eg);
+                    }
                 }
-                for (Connector out : outgoing) {
-                    out.setFrom(eg);
+                for (String out : outgoings) {
+                    Connector c = getConnector(out);
+                    if (c!= null) {
+                        c.setFrom(eg);
+                    }
                 }
             }
         }
