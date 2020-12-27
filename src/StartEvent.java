@@ -1,26 +1,26 @@
 import java.util.ArrayList;
 
 public class StartEvent extends Component{
-    private ArrayList<String> outgoingIds;
+    private ArrayList<String> outgoings;
 
-    public StartEvent(String name, String id, ArrayList<String> outgoingIds) {
+    public StartEvent(String name, String id, ArrayList<String> outgoings) {
         super(name, id);
-        this.outgoingIds = outgoingIds;
+        this.outgoings = outgoings;
     }
 
-    public ArrayList<String> getOutgoingIds() {
-        return outgoingIds;
+    public ArrayList<String> getOutgoings() {
+        return outgoings;
     }
 
-    public void setOutgoingIds(ArrayList<String> outgoingIds) {
-        this.outgoingIds = outgoingIds;
+    public void setOutgoings(ArrayList<String> outgoings) {
+        this.outgoings = outgoings;
     }
 
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder();
-        for (String outgoingId : outgoingIds) {
-            s.append(outgoingId).append("\t");
+        for (String outgoing : outgoings) {
+            s.append(outgoing).append("\t");
         }
         s.append("\n");
         return "    Name: '" + getName() + "'    id: " + getId() + "    Outgoing: " + s.toString();
@@ -29,14 +29,15 @@ public class StartEvent extends Component{
     public String toPiADL() {
         StringBuilder piADLcode = new StringBuilder();
         piADLcode.append("component ").append(getId()).append(" is abstraction (){\n");
-        for (int i = 0; i < outgoingIds.size(); i++) {
-            piADLcode.append("\tconnection ").append("saida_").append(i+1).append(" is out (Integer)\n");
+        for (int i = 0; i < outgoings.size(); i++) {
+            outgoings.set(i,"saida_" + (i+1));
+            piADLcode.append("\tconnection ").append(outgoings.get(i)).append(" is out (Integer)\n");
         }
         piADLcode.append("\tprotocol is {\n")
         .append("\t\t(");
-        for (int i = 0; i < outgoingIds.size(); i++) {
-            piADLcode.append("via ").append("saida_").append(i+1).append(" send Integer");
-            if (i == outgoingIds.size() - 1) {
+        for (int i = 0; i < outgoings.size(); i++) {
+            piADLcode.append("via ").append(outgoings.get(i)).append(" send Integer");
+            if (i == outgoings.size() - 1) {
                 piADLcode.append(")*\n");
             } else {
                 piADLcode.append(" |\n\t\t");
@@ -44,8 +45,8 @@ public class StartEvent extends Component{
         }
         piADLcode.append("\t}\n")
                 .append("\tbehavior is {\n");
-        for (int i = 0; i < outgoingIds.size(); i++) {
-            piADLcode.append("\t\tvia ").append("saida_").append(i+1).append(" send 0\n");
+        for (int i = 0; i < outgoings.size(); i++) {
+            piADLcode.append("\t\tvia ").append(outgoings.get(i)).append(" send 0\n");
         }
         piADLcode.append("\t\tbehavior()\n")
                 .append("\t}\n")
