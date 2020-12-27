@@ -182,8 +182,6 @@ public class YaoqiangXMLParser {
                 ChoreographyTask ct = new ChoreographyTask(
                         id,
                         name,
-                        in,
-                        out,
                         initiating,
                         choreoParticipantIds,
                         messageFlowIds
@@ -239,8 +237,6 @@ public class YaoqiangXMLParser {
                 ChoreographyTask ct = new ChoreographyTask(
                         id,
                         name,
-                        in,
-                        out,
                         initiating,
                         choreoParticipantIds,
                         messageFlowIds

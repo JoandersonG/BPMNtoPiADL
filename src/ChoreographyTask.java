@@ -1,8 +1,8 @@
 import java.util.ArrayList;
 
 public class ChoreographyTask extends Component{
-    private Connector incoming;
-    private Connector outgoing;
+    private String incoming;
+    private String outgoing;
     private String initiatingParticipantId;
     private ArrayList<String> participantIds;
     private ArrayList<String> messageFlowIds;
@@ -10,34 +10,30 @@ public class ChoreographyTask extends Component{
     public ChoreographyTask(
             String id,
             String name,
-            Connector incoming,
-            Connector outgoing,
             String initiatingParticipantId,
             ArrayList<String> participantIds,
             ArrayList<String> messageFlowIds
     ) {
         super(name, id);
-        this.incoming = incoming;
-        this.outgoing = outgoing;
         this.initiatingParticipantId = initiatingParticipantId;
         this.participantIds = participantIds;
         this.messageFlowIds = messageFlowIds;
     }
 
-    public Connector getIncoming() {
+    public String getIncoming() {
         return incoming;
     }
 
-    public void setIncoming(Connector incoming) {
+    public void setIncoming(String incoming) {
         this.incoming = incoming;
     }
 
-    public Connector getOutgoing() {
-        return outgoing;
+    public void setOutgoing(String outgoing) {
+        this.outgoing = outgoing;
     }
 
-    public void setOutgoing(Connector outgoing) {
-        this.outgoing = outgoing;
+    public String getOutgoing() {
+        return outgoing;
     }
 
     public String getInitiatingParticipantId() {
@@ -86,16 +82,18 @@ public class ChoreographyTask extends Component{
 
     public String toPiADL() {
         StringBuilder piADLcode = new StringBuilder();
+        incoming = "entrada";
+        outgoing = "saida";
         piADLcode.append("component ").append(getId()).append(" is abstraction (){\n")
-                .append("\tconnection ").append("entrada").append(" is in (Integer)\n")
-                .append("\tconnection ").append("saida").append(" is out (Integer)\n")
+                .append("\tconnection ").append(incoming).append(" is in (Integer)\n")
+                .append("\tconnection ").append(outgoing).append(" is out (Integer)\n")
                 .append("\tprotocol is {\n")
-                .append("\t\t(via ").append("entrada").append(" receive Integer |")
-                .append(" via ").append("saida").append(" send Integer)*\n")
+                .append("\t\t(via ").append(incoming).append(" receive Integer |")
+                .append(" via ").append(outgoing).append(" send Integer)*\n")
                 .append("\t}\n")
                 .append("\tbehavior is {\n")
-                .append("\t\tvia ").append("entrada").append(" receive x : Integer\n")
-                .append("\t\tvia ").append("saida")
+                .append("\t\tvia ").append(incoming).append(" receive x : Integer\n")
+                .append("\t\tvia ").append(outgoing)
                 .append(" send x\n")
                 .append("\t\tbehavior()\n")
                 .append("\t}\n")
