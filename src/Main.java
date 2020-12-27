@@ -8,8 +8,7 @@ public class Main {
         try {
             YaoqiangXMLParser parser = new YaoqiangXMLParser();
             parser.parseBPMN("diagram.bpmn");
-            String piADLcode = parser.generatePiADL();
-            System.out.println(parser.toString());
+            String piADLcode = parser.generatePiADL("Example");
             System.out.println(piADLcode);
         } catch (ParserConfigurationException | SAXException | IOException e) {
             e.printStackTrace();

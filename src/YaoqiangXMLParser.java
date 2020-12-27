@@ -518,23 +518,138 @@ public class YaoqiangXMLParser {
         return s.toString();
     }
 
-    public String generatePiADL() {
+    public String generatePiADL(String archName) {
         StringBuilder piADLcode = new StringBuilder();
+        //Gerar código navegando por elementos:
+        ArrayList<Component> alreadyRead = new ArrayList<>();
         for (StartEvent s : startEvents) {
-            piADLcode.append(s.toPiADL());
+            piADLcode.append(toPiADL(alreadyRead, s));
         }
+        piADLcode.append(generateArchitecture(archName));
+        return piADLcode.toString();
+    }
+
+    private String toPiADL(ArrayList<Component> alreadyRead, Component component) {
+        StringBuilder s = new StringBuilder();
+        s.append(component.toPiADL());
+        ArrayList<Connector> connectors = findConnectorFrom(component.getId());
+        for (Connector conn : connectors) {
+            s.append(conn.toPiADL());
+            if (!alreadyRead.contains(conn.getTo())) {
+                s.append(toPiADL(alreadyRead, conn.getTo()));
+                alreadyRead.add(conn.getTo());
+            }
+        }
+        return s.toString();
+    }
+
+    private ArrayList<Connector> findConnectorFrom(String cId) {
+        ArrayList<Connector> conns = new ArrayList<>();
+        for (Connector con : connectors) {
+            if (con.getFrom().getId().equals(cId)) {
+                conns.add(con);
+            }
+        }
+        return conns;
+    }
+
+    private String generateArchitecture(String archName) {
+        StringBuilder s = new StringBuilder();
+        s.append("architecture ").append(archName).append(" is abstraction () {\n");
+        s.append("\tbehavior is {\n")
+         .append("\t\tcompose {\n");
+        for (int i = 0; i < startEvents.size(); i++) {
+            startEvents.get(i).setInstanceName(i == 0? "i": "i" + (i+1));
+            s.append(i == 0? "\t\t\t" : "\t\t\tand ").append(startEvents.get(i).getInstanceName()).append(" is ").append(startEvents.get(i).getId()).append("()\n");
+        }
+        for (int i = 0; i < tasks.size(); i++) {
+            tasks.get(i).setInstanceName(i == 0? "t": "t" + (i+1));
+            s.append("\t\t\tand ").append(tasks.get(i).getInstanceName()).append(" is ").append(tasks.get(i).getId()).append("()\n");
+        }
+        for (int i = 0; i < gateways.size(); i++) {
+            gateways.get(i).setInstanceName(i == 0? "gw": "gw" + (i+1));
+            s.append("\t\t\tand ").append(gateways.get(i).getInstanceName()).append(" is ").append(gateways.get(i).getId()).append("()\n");
+        }
+        for (int i = 0; i < endEvents.size(); i++) {
+            endEvents.get(i).setInstanceName(i == 0? "f": "f" + (i+1));
+            s.append("\t\t\tand ").append(endEvents.get(i).getInstanceName()).append(" is ").append(endEvents.get(i).getId()).append("()\n");
+        }
+        for (int i = 0; i < connectors.size(); i++) {
+            connectors.get(i).setInstanceName(i == 0? "c": "c" + (i+1));
+            s.append("\t\t\tand ").append(connectors.get(i).getInstanceName()).append(" is ").append(connectors.get(i).getName()).append("()\n");
+        }
+        s.append("\t\t} where {\n");
+
+        ArrayList<Unification> unifications = new ArrayList<>();
+
         for (Connector c : connectors) {
-            piADLcode.append(c.toPiADL());
+            unifications.add(new Unification(c.getFrom(), c.getTo(), c));
+        }
+
+        for (StartEvent se : startEvents) {
+            for (int i = 0; i < se.getOutgoings().size(); i++) {
+                ArrayList<Unification> us = findUnificationByFrom(unifications, se);
+                us.get(i).setFromPort(se.getOutgoings().get(i));
+            }
         }
         for (ChoreographyTask ct : tasks) {
-            piADLcode.append(ct.toPiADL());
-        }
-        for (EndEvent e : endEvents) {
-            piADLcode.append(e.toPiADL());
+            //from
+            ArrayList<Unification> us = findUnificationByFrom(unifications, ct);
+            for (Unification u : us) {
+                    u.setFromPort(ct.getOutgoing());
+            }
+            //to
+            us = findUnificationByTo(unifications, ct);
+            for (Unification u : us) {
+                u.setToPort(ct.getIncoming());
+            }
         }
         for (Gateway g : gateways) {
-            piADLcode.append(g.toPiADL());
+            for (int i = 0; i < g.getIncomings().size(); i++) {
+                ArrayList<Unification> us = findUnificationByTo(unifications, g);
+                //a quantidade de incomings é igual à quantidade de Unifications obtida
+                us.get(i).setToPort(g.getIncomings().get(i));
+            }
+            for (int i = 0; i < g.getOutgoings().size(); i++) {
+                ArrayList<Unification> us = findUnificationByFrom(unifications, g);
+                us.get(i).setFromPort(g.getOutgoings().get(i));
+            }
         }
-        return piADLcode.toString();
+        for (EndEvent ee : endEvents) {
+            for (int i = 0; i < ee.getIncomings().size(); i++) {
+                ArrayList<Unification> us = findUnificationByTo(unifications, ee);
+                us.get(i).setToPort(ee.getIncomings().get(i));
+            }
+        }
+        for (Unification u : unifications) {
+            s.append("\t\t\t").append(u).append("\n");
+        }
+        s.append("\t\t}\n");
+        s.append("\t}\n");
+        s.append("}\n");
+        s.append("behavior is {\n");
+        s.append("\tbecome(").append(archName).append("())\n");
+        s.append("}\n");
+
+        return s.toString();
+    }
+    private ArrayList<Unification> findUnificationByFrom(ArrayList<Unification> unifications, Component comp) {
+        ArrayList<Unification> unificationsMatch = new ArrayList<>();
+        for (Unification u : unifications) {
+            if (u.getFromComp() != null && u.getFromComp().getId().equals(comp.getId())
+            ) {
+                unificationsMatch.add(u);
+            }
+        }
+        return unificationsMatch;
+    }
+    private ArrayList<Unification> findUnificationByTo(ArrayList<Unification> unifications, Component comp) {
+        ArrayList<Unification> unificationsMatch = new ArrayList<>();
+        for (Unification u : unifications) {
+            if (u.getToComp() != null && u.getToComp().getId().equals(comp.getId())) {
+                unificationsMatch.add(u);
+            }
+        }
+        return unificationsMatch;
     }
 }

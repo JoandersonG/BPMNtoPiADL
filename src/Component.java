@@ -31,4 +31,11 @@ public abstract class Component {
     public void setName(String name) {
         this.name = name;
     }
+
+    public abstract String toPiADL();
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj.getClass() == this.getClass() && ((Component) obj).getId().equals(id);
+    }
 }
