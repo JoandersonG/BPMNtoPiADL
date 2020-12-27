@@ -57,18 +57,20 @@ public class Gateway extends Component {
         StringBuilder s = new StringBuilder();
         s.append("component ").append(getId()).append(" is abstraction (){\n");
         for (int i = 0; i < incomings.size(); i++) {
-            s.append("\tconnection ").append("entrada").append(i+1).append(" is in (Integer)\n");
+            incomings.set(i, "entrada" + (i+1));
+            s.append("\tconnection ").append(incomings.get(i)).append(" is in (Integer)\n");
         }
         for (int i = 0; i < outgoings.size(); i++) {
-            s.append("\tconnection ").append("saida").append(i+1).append(" is out (Integer)\n");
+            outgoings.set(i, "saida" + (i+1));
+            s.append("\tconnection ").append(outgoings.get(i)).append(" is out (Integer)\n");
         }
         s.append("\tprotocol is {\n")
                 .append("\t\t(");
         for (int i = 0; i < incomings.size(); i++) {
-            s.append("via ").append("entrada").append(i+1).append(" receive Integer |\n\t\t");
+            s.append("via ").append(incomings.get(i)).append(" receive Integer |\n\t\t");
         }
         for (int i = 0; i < outgoings.size(); i++) {
-            s.append("via ").append("saida").append(i+1).append(" send Integer");
+            s.append("via ").append(outgoings.get(i)).append(" send Integer");
             if (i == outgoings.size() - 1) {
                 s.append(")*\n");
             } else {
@@ -78,7 +80,7 @@ public class Gateway extends Component {
         s.append("\t}\n");
         s.append("\tbehavior is {\n");
         for (int i = 0; i < incomings.size(); i++) {
-                s.append("\t\tvia ").append("entrada").append(i+1).append(" receive x").append(i+1).append(" : Integer\n");
+                s.append("\t\tvia ").append(incomings.get(i)).append(" receive x").append(i+1).append(" : Integer\n");
         }
         if (outgoings.size() > 1) {
             s.append("\t\tcompose {\n");
@@ -88,7 +90,7 @@ public class Gateway extends Component {
                 } else {
                     s.append("\t\t\t");
                 }
-                s.append("via ").append("saida").append(i+1).append(" send x1\n");
+                s.append("via ").append(outgoings.get(i)).append(" send x1\n");
             }
             s.append("\t\t}\n");
         } else {
@@ -104,18 +106,20 @@ public class Gateway extends Component {
         StringBuilder s = new StringBuilder();
         s.append("component ").append(getId()).append(" is abstraction (){\n");
         for (int i = 0; i < incomings.size(); i++) {
-            s.append("\tconnection ").append("entrada").append(i+1).append(" is in (Integer)\n");
+            incomings.set(i, "entrada" + (i+1));
+            s.append("\tconnection ").append(incomings.get(i)).append(" is in (Integer)\n");
         }
         for (int i = 0; i < outgoings.size(); i++) {
-            s.append("\tconnection ").append("saida").append(i+1).append(" is out (Integer)\n");
+            outgoings.set(i, "saida" + (i+1));
+            s.append("\tconnection ").append(outgoings.get(i)).append(" is out (Integer)\n");
         }
         s.append("\tprotocol is {\n")
                 .append("\t\t(");
         for (int i = 0; i < incomings.size(); i++) {
-            s.append("via ").append("entrada").append(i+1).append(" receive Integer |\n\t\t");
+            s.append("via ").append(incomings.get(i)).append(" receive Integer |\n\t\t");
         }
         for (int i = 0; i < outgoings.size(); i++) {
-            s.append("via ").append("saida").append(i+1).append(" send Integer");
+            s.append("via ").append(outgoings.get(i)).append(" send Integer");
             if (i == outgoings.size() - 1) {
                 s.append(")*\n");
             } else {
