@@ -1,10 +1,19 @@
 public abstract class Component {
     private String name;
+    private String instanceName;
     private String id;
 
     public Component(String name, String id) {
         this.name = name;
         this.id = id;
+    }
+
+    public String getInstanceName() {
+        return instanceName;
+    }
+
+    public void setInstanceName(String instanceName) {
+        this.instanceName = instanceName;
     }
 
     public String getId() {
