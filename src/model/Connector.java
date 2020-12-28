@@ -1,3 +1,5 @@
+package model;
+
 public class Connector {
     private String name;
     private String instanceName;

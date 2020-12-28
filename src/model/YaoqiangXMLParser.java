@@ -1,3 +1,5 @@
+package model;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -23,7 +25,7 @@ public class YaoqiangXMLParser {
     ArrayList<Gateway> gateways;
     DocumentBuilder builder;
 
-    YaoqiangXMLParser() throws ParserConfigurationException {
+    public YaoqiangXMLParser() throws ParserConfigurationException {
         participants = new ArrayList<>();
         messages = new ArrayList<>();
         messageFlows = new ArrayList<>();
@@ -102,7 +104,7 @@ public class YaoqiangXMLParser {
                 try {
                     messageFlows.add(new MessageFlow(id,getParticipant(sendId),getParticipant(receiveId)));
                 } catch (IllegalArgumentException e) {
-                    System.out.println("Erro: um dos participantes envolvidos em  Message flow não foi encontrado");
+                    System.out.println("Erro: um dos participantes envolvidos em  model.Message flow não foi encontrado");
                 }
             }
         }
@@ -263,7 +265,7 @@ public class YaoqiangXMLParser {
             if (node.getNodeType() == Node.ELEMENT_NODE) {
                 Element gateway = (Element) node;
                 String name = gateway.getAttribute("name");
-                String id = getValidId(name.equals("")? "Gateway" : name, String.valueOf(i + 1));
+                String id = getValidId(name.equals("")? "model.Gateway" : name, String.valueOf(i + 1));
                 ArrayList<String> incomings = new ArrayList<>();
                 ArrayList<String> outgoings = new ArrayList<>();
                 NodeList insideInfoNode = gateway.getChildNodes();

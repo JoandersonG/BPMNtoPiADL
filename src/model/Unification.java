@@ -1,3 +1,5 @@
+package model;
+
 public class Unification {
     private Component fromComp;
     private Component toComp;

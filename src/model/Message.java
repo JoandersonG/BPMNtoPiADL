@@ -1,3 +1,5 @@
+package model;
+
 public class Message {
     private String id;
     private String name;

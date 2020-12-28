@@ -1,3 +1,5 @@
+package model;
+
 public class Participant {
     private String id;
     private String name;

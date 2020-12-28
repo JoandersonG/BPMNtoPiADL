@@ -1,3 +1,5 @@
+package model;
+
 public class MessageFlow {
     private String id;
     private Participant sender;

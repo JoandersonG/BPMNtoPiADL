@@ -1,3 +1,5 @@
+package model;
+
 import java.util.ArrayList;
 
 public class ChoreographyTask extends Component{
@@ -70,11 +72,11 @@ public class ChoreographyTask extends Component{
                 .append("\n    InitiatingId: ").append(initiatingParticipantId)
                 .append("\n    Participants:\n");
         for (String pId : participantIds) {
-            sb.append("        Participant: ").append(pId).append("\n");
+            sb.append("        model.Participant: ").append(pId).append("\n");
         }
         sb.append("    MessageFlows: \n");
         for (String mId : messageFlowIds) {
-            sb.append("        MessageFlow: ").append(mId).append("\n");
+            sb.append("        model.MessageFlow: ").append(mId).append("\n");
         }
 
         return sb.toString();

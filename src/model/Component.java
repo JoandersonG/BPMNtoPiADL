@@ -1,3 +1,5 @@
+package model;
+
 public abstract class Component {
     private String name;
     private String instanceName;
