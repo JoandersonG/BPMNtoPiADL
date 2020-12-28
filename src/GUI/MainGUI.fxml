@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="334.0" prefWidth="681.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.MainGUI">
+   <Button layoutX="167.0" layoutY="231.0" mnemonicParsing="false" onAction="#testDeadlock" prefHeight="29.0" prefWidth="499.0" styleClass="test-deadlock-button" text="Testar ocorrência de deadlock" textFill="WHITE" />
+   <Text layoutX="165.0" layoutY="121.0" text="Selecione o arquivo .bpmn para o teste de ocorrencia de deadlocks" textAlignment="JUSTIFY" wrappingWidth="498.99999360740185">
+      <font>
+         <Font size="17.0" />
+      </font>
+   </Text>
+   <Button layoutY="204.0" mnemonicParsing="false" prefHeight="128.0" prefWidth="147.0" styleClass="menu-button" text="Sobre a Aplicação" textFill="WHITE" />
+   <Button layoutY="79.0" mnemonicParsing="false" prefHeight="128.0" prefWidth="147.0" styleClass="menu-button" text="Testar Deadlock" textFill="WHITE" />
+   <TextField fx:id="tfFilePath" layoutX="167.0" layoutY="173.0" prefHeight="29.0" prefWidth="311.0" styleClass="text-file-path" />
+   <Button layoutX="496.0" layoutY="174.0" mnemonicParsing="false" onAction="#chooseFile" prefHeight="29.0" prefWidth="171.0" style="." styleClass="select-file-button" text="Selecionar arquivo" />
+   <AnchorPane layoutY="-1.0" prefHeight="80.0" prefWidth="688.0" style="-fx-background-color: #ff6600;">
+      <children>
+         <Text fill="WHITE" layoutX="193.0" layoutY="51.0" text="Teste de Deadlock" textAlignment="CENTER" wrappingWidth="322.78955078125">
+            <font>
+               <Font size="30.0" />
+            </font>
+         </Text>
+      </children>
+   </AnchorPane>
+   <Text fx:id="txtResult" layoutX="167.0" layoutY="305.0" text="Um deadlock foi identificado no Gateway 3" textAlignment="CENTER" wrappingWidth="498.9999854564667">
+      <font>
+         <Font size="15.0" />
+      </font>
+   </Text>
+</AnchorPane>
