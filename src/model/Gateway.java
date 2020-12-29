@@ -136,6 +136,7 @@ public class Gateway extends Component {
             //uma saída
             if (outgoings.size() == 1) {
                 s.append("\t\tvia ").append("saida").append(1).append(" send x1\n");
+                s.append("\t\tbehavior()\n");
             } else {
                 //uma entrada, múltiplas saídas
                 s.append("\t\tchoose {\n");
@@ -157,6 +158,7 @@ public class Gateway extends Component {
                 //múltiplas entradas, uma saída
                 if (outgoings.size() == 1) {
                     s.append("\t\t\tvia ").append("saida").append(1).append(" send x").append(i+1).append("\n");
+                    s.append("\t\t\tbehavior()\n");
                 } else {
                     //múltiplas entradas, múltiplas saídas
                     s.append("\t\t\tchoose {\n");
