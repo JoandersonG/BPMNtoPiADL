@@ -157,7 +157,12 @@ public class Gateway extends Component {
                 s.append("\t\t\tvia ").append("entrada").append(i+1).append(" receive x").append(i+1).append(" : Integer\n");
                 //múltiplas entradas, uma saída
                 if (outgoings.size() == 1) {
-                    s.append("\t\t\tvia ").append("saida").append(1).append(" send x").append(i+1).append("\n");
+                    StringBuilder valForSending = new StringBuilder();
+                    valForSending.append("x1");
+                    for (int k = 1; k < incomings.size(); k++) {
+                        valForSending.append(" + x").append(k+1);
+                    }
+                    s.append("\t\t\tvia ").append("saida").append(1).append(" send (").append(valForSending).append(")").append("\n");
                     s.append("\t\t\tbehavior()\n");
                 } else {
                     //múltiplas entradas, múltiplas saídas
