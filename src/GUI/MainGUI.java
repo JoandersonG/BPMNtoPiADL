@@ -42,7 +42,7 @@ public class MainGUI extends Application {
 
     public void chooseFile(Event e) {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Open Resource File");
+        fileChooser.setTitle("Selecione o arquivo .bpmn");
         File chosen = fileChooser.showOpenDialog(primaryStage);
         if (chosen == null) {
             return;
