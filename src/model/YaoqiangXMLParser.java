@@ -150,12 +150,12 @@ public class YaoqiangXMLParser {
             Node node = tasksList.item(i);
             if (node.getNodeType() == Node.ELEMENT_NODE) {
                 Element task = (Element) node;
-                String initiating = task.getAttribute("initiatingParticipantRef");
+                Participant initiating = getParticipant(task.getAttribute("initiatingParticipantRef"));
                 String name = task.getAttribute("name");
                 String id = name.equals("") ? getValidId("Task", String.valueOf(i + 1)) : getValidId(name, String.valueOf(i + 1));
                 String incoming = "";
                 String outgoing = "";
-                ArrayList<String> choreoParticipantIds = new ArrayList<>();
+                ArrayList<Participant> choreoParticipants = new ArrayList<>();
                 ArrayList<String> messageFlowIds = new ArrayList<>();
                 NodeList insideInfoNode = task.getChildNodes();
                 for (int j = 0; j < insideInfoNode.getLength(); j++) {
@@ -171,7 +171,7 @@ public class YaoqiangXMLParser {
                                 outgoing = item.getTextContent();
                                 break;
                             case "participantRef":
-                                choreoParticipantIds.add(item.getTextContent());
+                                choreoParticipants.add(getParticipant(item.getTextContent()));
                                 break;
                             case "messageFlowRef":
                                 messageFlowIds.add(item.getTextContent());
@@ -185,7 +185,7 @@ public class YaoqiangXMLParser {
                         id,
                         name,
                         initiating,
-                        choreoParticipantIds,
+                        choreoParticipants,
                         messageFlowIds
                         );
                 tasks.add(ct);
@@ -205,12 +205,12 @@ public class YaoqiangXMLParser {
             Node node = tasksList.item(i);
             if (node.getNodeType() == Node.ELEMENT_NODE) {
                 Element task = (Element) node;
-                String initiating = task.getAttribute("initiatingParticipantRef");
+                Participant initiating = getParticipant(task.getAttribute("initiatingParticipantRef"));
                 String name = task.getAttribute("name");
                 String id = name.equals("") ? getValidId("SubTask", String.valueOf(i + 1)) : getValidId(name, String.valueOf(i + 1));
                 String incoming = "";
                 String outgoing = "";
-                ArrayList<String> choreoParticipantIds = new ArrayList<>();
+                ArrayList<Participant> choreoParticipants = new ArrayList<>();
                 ArrayList<String> messageFlowIds = new ArrayList<>();
                 NodeList insideInfoNode = task.getChildNodes();
                 for (int j = 0; j < insideInfoNode.getLength(); j++) {
@@ -226,7 +226,7 @@ public class YaoqiangXMLParser {
                                 outgoing = item.getTextContent();
                                 break;
                             case "participantRef":
-                                choreoParticipantIds.add(item.getTextContent());
+                                choreoParticipants.add(getParticipant(item.getTextContent()));
                                 break;
                             case "messageFlowRef":
                                 messageFlowIds.add(item.getTextContent());
@@ -240,7 +240,7 @@ public class YaoqiangXMLParser {
                         id,
                         name,
                         initiating,
-                        choreoParticipantIds,
+                        choreoParticipants,
                         messageFlowIds
                 );
                 tasks.add(ct);
