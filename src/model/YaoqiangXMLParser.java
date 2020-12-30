@@ -8,6 +8,7 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.Normalizer;
 import java.util.ArrayList;
@@ -39,18 +40,22 @@ public class YaoqiangXMLParser {
 
     //This method parses Yaoqiang's BPMN 2.0's coreography diagram
     public void parseBPMN(String filePath) throws IOException, SAXException {
-        Document doc = builder.parse(filePath);
-        parseParticipants(doc);
-        parseMessage(doc);
-        parseMessageAssociation(doc);
-        parseMessageFlows(doc);
-        parseConnectors(doc);
-        parseCoreographyTasks(doc);
-        parseSubChoreographyTasks(doc);
-        parseStartEvents(doc);
-        parseEndEvents(doc);
-        parseGateways(doc);
-        System.out.println();
+        try {
+            Document doc = builder.parse(filePath);
+            parseParticipants(doc);
+            parseMessage(doc);
+            parseMessageAssociation(doc);
+            parseMessageFlows(doc);
+            parseConnectors(doc);
+            parseCoreographyTasks(doc);
+            parseSubChoreographyTasks(doc);
+            parseStartEvents(doc);
+            parseEndEvents(doc);
+            parseGateways(doc);
+            System.out.println();
+        } catch (FileNotFoundException exception) {
+            throw new FileNotFoundException();
+        }
     }
 
     private void parseParticipants(Document doc) {

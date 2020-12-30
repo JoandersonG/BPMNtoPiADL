@@ -7,13 +7,13 @@
 .menu-button:pressed {
     -fx-background-color: #4400aa;
 }
-.test-deadlock-button {
+.generate-piadl-button {
     -fx-background-color: #ff6600;
     -fx-background-radius: 0px;
     -fx-border-color:black;
     -fx-border-width: 1 1 1 1;
 }
-.test-deadlock-button:pressed {
+.generate-piadl-button:pressed {
     -fx-background-color: #ff7f2a;
 
 }

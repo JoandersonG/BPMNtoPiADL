@@ -5,8 +5,8 @@
 <?import javafx.scene.text.*?>
 
 <AnchorPane prefHeight="334.0" prefWidth="681.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.MainGUI">
-   <Button layoutX="167.0" layoutY="231.0" mnemonicParsing="false" onAction="#testDeadlock" prefHeight="29.0" prefWidth="499.0" styleClass="test-deadlock-button" text="Testar ocorrência de deadlock" textFill="WHITE" />
-   <Text layoutX="165.0" layoutY="121.0" text="Selecione o arquivo .bpmn para o teste de ocorrencia de deadlocks" textAlignment="JUSTIFY" wrappingWidth="498.99999360740185">
+   <Button layoutX="167.0" layoutY="231.0" mnemonicParsing="false" onAction="#generatePiADL" prefHeight="29.0" prefWidth="499.0" styleClass="generate-piadl-button" text="gerar pi-ADL" textFill="WHITE" />
+   <Text layoutX="165.0" layoutY="121.0" text="Selecione o arquivo .bpmn que voc deseja converter em pi-ADL" textAlignment="JUSTIFY" wrappingWidth="498.99999360740185">
       <font>
          <Font size="17.0" />
       </font>
