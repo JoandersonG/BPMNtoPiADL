@@ -29,4 +29,9 @@ public class Participant {
     public String toString() {
         return "Id: " + id + "  Name: " + name;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj.getClass() == this.getClass() && ((Participant)obj).getId().equals(id);
+    }
 }
