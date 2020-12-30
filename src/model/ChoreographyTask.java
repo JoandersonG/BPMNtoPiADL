@@ -5,20 +5,20 @@ import java.util.ArrayList;
 public class ChoreographyTask extends Component{
     private String incoming;
     private String outgoing;
-    private String initiatingParticipantId;
-    private ArrayList<String> participantIds;
+    private Participant initParticipant;
+    private ArrayList<Participant> participants;
     private ArrayList<String> messageFlowIds;
 
     public ChoreographyTask(
             String id,
             String name,
-            String initiatingParticipantId,
-            ArrayList<String> participantIds,
+            Participant initParticipant,
+            ArrayList<Participant> participants,
             ArrayList<String> messageFlowIds
     ) {
         super(name, id);
-        this.initiatingParticipantId = initiatingParticipantId;
-        this.participantIds = participantIds;
+        this.initParticipant = initParticipant;
+        this.participants = participants;
         this.messageFlowIds = messageFlowIds;
     }
 
@@ -38,20 +38,20 @@ public class ChoreographyTask extends Component{
         return outgoing;
     }
 
-    public String getInitiatingParticipantId() {
-        return initiatingParticipantId;
+    public Participant getInitParticipant() {
+        return initParticipant;
     }
 
-    public void setInitiatingParticipantId(String initiatingParticipantId) {
-        this.initiatingParticipantId = initiatingParticipantId;
+    public void setInitParticipant(Participant initParticipant) {
+        this.initParticipant = initParticipant;
     }
 
-    public ArrayList<String> getParticipantIds() {
-        return participantIds;
+    public ArrayList<Participant> getParticipants() {
+        return participants;
     }
 
-    public void setParticipantIds(ArrayList<String> participantIds) {
-        this.participantIds = participantIds;
+    public void setParticipants(ArrayList<Participant> participants) {
+        this.participants = participants;
     }
 
     public ArrayList<String> getMessageFlowIds() {
@@ -69,10 +69,10 @@ public class ChoreographyTask extends Component{
                 .append(getName() != null ? getName() : "Sem Nome")
                 .append("\n    Incoming: ").append(incoming)
                 .append("\n    Outgoing: ").append(outgoing)
-                .append("\n    InitiatingId: ").append(initiatingParticipantId)
+                .append("\n    InitiatingId: ").append(initParticipant)
                 .append("\n    Participants:\n");
-        for (String pId : participantIds) {
-            sb.append("        model.Participant: ").append(pId).append("\n");
+        for (Participant p : participants) {
+            sb.append("        model.Participant: ").append(p.getId()).append("\n");
         }
         sb.append("    MessageFlows: \n");
         for (String mId : messageFlowIds) {
