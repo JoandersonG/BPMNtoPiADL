@@ -28,6 +28,12 @@ public class TestDeadlock {
             String programName = getProgramName(currentDirectory);
             execProgramAsChildProcess(currentDirectory + "/./" + programName);
             System.out.println("Nome do programa: " + programName);
+            //    Copy regular scheduler files into scheduler directory
+            copyFilesToSchedulerDirectory(
+                    currentDirectory,
+                    SchedulerCodeManager.getSchedulerCode(),
+                    PlasmaInterfaceCodeManager.getPlasmaInterfaceCode()
+            );
         } catch (IOException | InterruptedException exception) {
             exception.printStackTrace();
             //TODO: warn user of error
