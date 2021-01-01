@@ -34,6 +34,8 @@ public class TestDeadlock {
                     SchedulerCodeManager.getSchedulerCode(),
                     PlasmaInterfaceCodeManager.getPlasmaInterfaceCode()
             );
+            //    Re-execute compile program
+            execProgramAsChildProcess(currentDirectory + "/./" + "compile");
         } catch (IOException | InterruptedException exception) {
             exception.printStackTrace();
             //TODO: warn user of error
