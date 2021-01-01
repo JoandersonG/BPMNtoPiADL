@@ -1,5 +1,6 @@
 package deadlockTest;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -23,10 +24,27 @@ public class TestDeadlock {
             //  Execute compile program
             String currentDirectory = System.getProperty("user.dir");
             execProgramAsChildProcess(currentDirectory + "/./" + "compile");
+            //    Execute model internally looking for deadlock message
+            String programName = getProgramName(currentDirectory);
+            execProgramAsChildProcess(currentDirectory + "/./" + programName);
+            System.out.println("Nome do programa: " + programName);
         } catch (IOException | InterruptedException exception) {
             exception.printStackTrace();
             //TODO: warn user of error
         }
+    }
+
+    private static String getProgramName(String dirPath) {
+        File dir = new File(dirPath);
+        if (dir.listFiles() == null){
+            return null;
+        }
+        for (File file : dir.listFiles()) {
+            if (file.getName().matches(".*[.]go")) {
+                return file.getName().split("[.]go")[0];
+            }
+        }
+        return null;
     }
 
     private static void execProgramAsChildProcess(String newProgram) throws IOException, InterruptedException {
