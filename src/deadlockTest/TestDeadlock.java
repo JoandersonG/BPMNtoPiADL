@@ -19,6 +19,20 @@ public class TestDeadlock {
         } catch(IOException e) {
             //TODO: warn user of error
         }
+        try {
+            //  Execute compile program
+            String currentDirectory = System.getProperty("user.dir");
+            execProgramAsChildProcess(currentDirectory + "/./" + "compile");
+        } catch (IOException | InterruptedException exception) {
+            exception.printStackTrace();
+            //TODO: warn user of error
+        }
+    }
+
+    private static void execProgramAsChildProcess(String newProgram) throws IOException, InterruptedException {
+        Process exec = Runtime.getRuntime().exec(new String[] { newProgram, "" });
+        exec.waitFor();
+        System.out.println(exec.exitValue());
     }
 
     private static void copyFilesToSchedulerDirectory(String currentDirectory, String schedulerCode, String plasmaInterfaceCode) throws IOException {
