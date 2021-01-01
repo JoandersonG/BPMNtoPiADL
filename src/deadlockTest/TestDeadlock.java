@@ -11,9 +11,9 @@ public class TestDeadlock {
 
 //        //  Copy files into scheduler directory
         try {
-            String currentDirectory = System.getProperty("user.dir");
+            String workingDirectory = System.getProperty("user.dir");
             copyFilesToSchedulerDirectory(
-                    currentDirectory,
+                    workingDirectory,
                     SchedulerCodeManager.getSchedulerCodeWithNoPrint(),
                     PlasmaInterfaceCodeManager.getPlasmaInterfaceCodeWithNoPrint()
             );
@@ -22,20 +22,20 @@ public class TestDeadlock {
         }
         try {
             //  Execute compile program
-            String currentDirectory = System.getProperty("user.dir");
-            execProgramAsChildProcess(currentDirectory + "/./" + "compile");
+            String workingDirectory = System.getProperty("user.dir");
+            execProgramAsChildProcess(workingDirectory + "/./" + "compile");
             //    Execute model internally looking for deadlock message
-            String programName = getProgramName(currentDirectory);
-            execProgramAsChildProcess(currentDirectory + "/./" + programName);
+            String programName = getProgramName(workingDirectory);
+            execProgramAsChildProcess(workingDirectory + "/./" + programName);
             System.out.println("Nome do programa: " + programName);
             //    Copy regular scheduler files into scheduler directory
             copyFilesToSchedulerDirectory(
-                    currentDirectory,
+                    workingDirectory,
                     SchedulerCodeManager.getSchedulerCode(),
                     PlasmaInterfaceCodeManager.getPlasmaInterfaceCode()
             );
             //    Re-execute compile program
-            execProgramAsChildProcess(currentDirectory + "/./" + "compile");
+            execProgramAsChildProcess(workingDirectory + "/./" + "compile");
         } catch (IOException | InterruptedException exception) {
             exception.printStackTrace();
             //TODO: warn user of error
@@ -61,13 +61,13 @@ public class TestDeadlock {
         System.out.println(exec.exitValue());
     }
 
-    private static void copyFilesToSchedulerDirectory(String currentDirectory, String schedulerCode, String plasmaInterfaceCode) throws IOException {
+    private static void copyFilesToSchedulerDirectory(String workingDirectory, String schedulerCode, String plasmaInterfaceCode) throws IOException {
 
-        //String currentDirectory = System.getProperty("user.dir");
-        System.out.println("Current directory: " + currentDirectory);
+        //String workingDirectory = System.getProperty("user.dir");
+        System.out.println("Current directory: " + workingDirectory);
         //get parent directory
-        int index = currentDirectory.lastIndexOf("/");
-        String parentPath = currentDirectory.substring(0, index);
+        int index = workingDirectory.lastIndexOf("/");
+        String parentPath = workingDirectory.substring(0, index);
         System.out.println("Parent directory: " + parentPath);
         String schedulerDirPath = parentPath + "/scheduler";
         System.out.println("Scheduler directory: " + schedulerDirPath);
