@@ -1,17 +1,12 @@
 package deadlockTest;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 
 public class TestDeadlock {
 
-    public static void main(String[] args) {
-
+public static String performDeadlockTest(String workingDirectory) {
 //        //  Copy files into scheduler directory
         try {
-            String workingDirectory = System.getProperty("user.dir");
             copyFilesToSchedulerDirectory(
                     workingDirectory,
                     SchedulerCodeManager.getSchedulerCodeWithNoPrint(),
@@ -19,15 +14,19 @@ public class TestDeadlock {
             );
         } catch(IOException e) {
             //TODO: warn user of error
+            return "-1";
         }
         try {
+            // Change permissions of compile program
+            Process exec = Runtime.getRuntime().exec("chmod u+x "+ workingDirectory);
+            exec.waitFor();
+
             //  Execute compile program
-            String workingDirectory = System.getProperty("user.dir");
             execProgramAsChildProcess(workingDirectory + "/./" + "compile");
             //    Execute model internally looking for deadlock message
             String programName = getProgramName(workingDirectory);
-            execProgramAsChildProcess(workingDirectory + "/./" + programName);
-            System.out.println("Nome do programa: " + programName);
+            String result = execProgramAsChildProcess(workingDirectory + "/./" + programName);
+            System.out.println("Result:\n " + result);
             //    Copy regular scheduler files into scheduler directory
             copyFilesToSchedulerDirectory(
                     workingDirectory,
@@ -36,9 +35,11 @@ public class TestDeadlock {
             );
             //    Re-execute compile program
             execProgramAsChildProcess(workingDirectory + "/./" + "compile");
+            return result;
         } catch (IOException | InterruptedException exception) {
             exception.printStackTrace();
             //TODO: warn user of error
+            return "-1";
         }
     }
 
@@ -55,10 +56,26 @@ public class TestDeadlock {
         return null;
     }
 
-    private static void execProgramAsChildProcess(String newProgram) throws IOException, InterruptedException {
+    private static String execProgramAsChildProcess(String newProgram) throws IOException, InterruptedException {
         Process exec = Runtime.getRuntime().exec(new String[] { newProgram, "" });
         exec.waitFor();
+        InputStreamReader isr = new InputStreamReader(exec.getInputStream());
+        BufferedReader reader = new BufferedReader(isr);
         System.out.println(exec.exitValue());
+        String line = null;
+        StringBuilder sb = new StringBuilder();
+        while ((line = reader.readLine()) != null) {
+            if (line.matches("d.*") || line.matches("n.*")) {
+                System.out.println(line);
+                sb.append(line);
+            }
+        }
+        if (sb.toString().equals("")) {
+            return "Não foi possível obter saída de execução interna em busca de deadlocks";
+        }
+        isr.close();
+        reader.close();
+        return sb.toString();
     }
 
     private static void copyFilesToSchedulerDirectory(String workingDirectory, String schedulerCode, String plasmaInterfaceCode) throws IOException {
