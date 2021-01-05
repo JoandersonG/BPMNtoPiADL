@@ -1,12 +1,16 @@
 package GUI;
 
+import deadlockTest.TestDeadlock;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -18,11 +22,25 @@ import java.io.*;
 
 public class MainGUI extends Application {
 
+    public Text txtResultDeadlockTest;
+    public TextField tfFilePathDeadlockTest;
+    public TextField tfFilePathPiADL;
+    public Text errorPiADL;
+    public Text resultPiADL;
+    public Text errorDeadlockTest;
     private Stage primaryStage;
     @FXML
-    private TextField tfFilePath;
+    public ToggleButton testDeadlockMenuButton;
     @FXML
-    private Text txtResult;
+    private ToggleButton aboutMenuButton;
+    @FXML
+    private ToggleButton piADLMenuButton;
+    @FXML
+    public AnchorPane apPiADL;
+    @FXML
+    public AnchorPane apDeadlockTest;
+    private String savingPiADLPath = null;
+
 
     public static void main(String[] args) {
         launch(args);
@@ -103,5 +121,75 @@ public class MainGUI extends Application {
             return "Não foi possível gerar pi-ADL: não foi possível encontrar arquivo .bpmn informado";
         }
 
+    }
+
+    public void TestDeadlockView(ActionEvent actionEvent) {
+        testDeadlockMenuButton.setSelected(true);
+        testDeadlockMenuHandleOnClick(actionEvent);
+    }
+
+    public void piADLMenuButtonHandleOnClick(ActionEvent actionEvent) {
+        if (!testDeadlockMenuButton.isSelected() && !aboutMenuButton.isSelected()) {
+            piADLMenuButton.setSelected(true);
+        }
+        testDeadlockMenuButton.setSelected(false);
+        aboutMenuButton.setSelected(false);
+
+        apPiADL.setVisible(true);
+        apDeadlockTest.setVisible(false);
+    }
+
+    public void testDeadlockMenuHandleOnClick(ActionEvent actionEvent) {
+        if (!piADLMenuButton.isSelected() && !aboutMenuButton.isSelected()) {
+            testDeadlockMenuButton.setSelected(true);
+        }
+        piADLMenuButton.setSelected(false);
+        aboutMenuButton.setSelected(false);
+
+        apPiADL.setVisible(false);
+        apDeadlockTest.setVisible(true);
+    }
+
+    public void aboutMenuHandleOnClick(ActionEvent actionEvent) {
+        if (!testDeadlockMenuButton.isSelected() && !piADLMenuButton.isSelected()) {
+            aboutMenuButton.setSelected(true);
+        }
+        testDeadlockMenuButton.setSelected(false);
+        piADLMenuButton.setSelected(false);
+    }
+
+    public void chooseFileDeadlockTest(ActionEvent actionEvent) {
+        chooseFile(tfFilePathDeadlockTest, "Selecione o arquivo compile do seu programa gerado pelo Eclipse");
+    }
+
+    public void chooseFilePiADL(ActionEvent actionEvent) {
+        chooseFile(tfFilePathPiADL, "Selecione o arquivo .bpmn");
+    }
+
+    public void selectSavingPathPiADLOnClick(ActionEvent actionEvent) {
+        errorPiADL.setVisible(false);
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Salvar arquivo .piadl");
+        File chosen = fileChooser.showSaveDialog(primaryStage);
+        if (chosen != null && !chosen.getPath().equals("")) {
+            savingPiADLPath = chosen.getPath();
+        }
+    }
+
+    public void TestDeadlock(ActionEvent actionEvent) {
+        errorDeadlockTest.setVisible(false);
+        if (tfFilePathDeadlockTest == null || tfFilePathDeadlockTest.getText().equals("")) {
+            errorDeadlockTest.setText("Forneça um caminho para o arquivo compile, localizado dentro do projeto criado no Eclipse");
+            errorDeadlockTest.setVisible(true);
+            return;
+        }
+        String workingDirectory = tfFilePathDeadlockTest.getText().substring(0, tfFilePathDeadlockTest.getText().lastIndexOf("/"));
+        String result = TestDeadlock.performDeadlockTest(workingDirectory);
+        if (result.equals("-1")) {
+            errorDeadlockTest.setText("Erro: não foi possível obter retorno de teste de deadlock");
+            errorDeadlockTest.setVisible(true);
+            return;
+        }
+        txtResultDeadlockTest.setText(result);
     }
 }
