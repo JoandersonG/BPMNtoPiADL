@@ -75,9 +75,6 @@ public class MainGUI extends Application {
             errorPiADL.setVisible(true);
             return;
         }
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Salvar arquivo .piadl");
-        File chosen = fileChooser.showSaveDialog(primaryStage);
         if (savingPiADLPath == null || savingPiADLPath.equals("")) {
             errorPiADL.setText("Forneça um caminho válido para salvar o arquivo");
             errorPiADL.setVisible(true);
