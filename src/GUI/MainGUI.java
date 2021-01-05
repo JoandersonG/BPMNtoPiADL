@@ -33,7 +33,7 @@ public class MainGUI extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("/GUI/MainGUI.fxml"));
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("Teste de Deadlock");
-        Scene scene = new Scene(root, 681, 333);
+        Scene scene = new Scene(root, 681, 455);
         scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
         this.primaryStage.setScene(scene);
         this.primaryStage.show();
