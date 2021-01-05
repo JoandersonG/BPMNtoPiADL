@@ -4,17 +4,10 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="334.0" prefWidth="681.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.MainGUI">
-   <Button layoutX="167.0" layoutY="231.0" mnemonicParsing="false" onAction="#generatePiADL" prefHeight="29.0" prefWidth="499.0" styleClass="generate-piadl-button" text="gerar pi-ADL" textFill="WHITE" />
-   <Text layoutX="165.0" layoutY="121.0" text="Selecione o arquivo .bpmn que voc deseja converter em pi-ADL" textAlignment="JUSTIFY" wrappingWidth="498.99999360740185">
-      <font>
-         <Font size="17.0" />
-      </font>
-   </Text>
-   <Button layoutY="204.0" mnemonicParsing="false" prefHeight="128.0" prefWidth="147.0" styleClass="menu-button" text="Sobre a Aplicação" textFill="WHITE" />
-   <Button layoutY="79.0" mnemonicParsing="false" prefHeight="128.0" prefWidth="147.0" styleClass="menu-button" text="Testar Deadlock" textFill="WHITE" />
-   <TextField fx:id="tfFilePath" layoutX="167.0" layoutY="173.0" prefHeight="29.0" prefWidth="311.0" styleClass="text-file-path" />
-   <Button layoutX="496.0" layoutY="174.0" mnemonicParsing="false" onAction="#chooseFile" prefHeight="29.0" prefWidth="171.0" style="." styleClass="select-file-button" text="Selecionar arquivo" />
+<AnchorPane prefHeight="459.0" prefWidth="688.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.MainGUI">
+   <ToggleButton fx:id="aboutMenuButton" layoutY="331.0" mnemonicParsing="false" onAction="#aboutMenuHandleOnClick" prefHeight="128.0" prefWidth="147.0" styleClass="menu-button" text="Sobre a Aplicação" textFill="WHITE" />
+   <ToggleButton fx:id="testDeadlockMenuButton" layoutY="203.0" mnemonicParsing="false" onAction="#testDeadlockMenuHandleOnClick" prefHeight="128.0" prefWidth="147.0" styleClass="menu-button" text="Testar Deadlock" textFill="WHITE" />
+   <ToggleButton fx:id="piADLMenuButton" layoutY="79.0" mnemonicParsing="false" onAction="#piADLMenuButtonHandleOnClick" prefHeight="128.0" prefWidth="147.0" selected="true" styleClass="menu-button" text="Gerar pi-ADL" textFill="WHITE" />
    <AnchorPane layoutY="-1.0" prefHeight="80.0" prefWidth="688.0" style="-fx-background-color: #ff6600;">
       <children>
          <Text fill="WHITE" layoutX="193.0" layoutY="51.0" text="Teste de Deadlock" textAlignment="CENTER" wrappingWidth="322.78955078125">
@@ -24,9 +17,60 @@
          </Text>
       </children>
    </AnchorPane>
-   <Text fx:id="txtResult" layoutX="167.0" layoutY="305.0" text="Um deadlock foi identificado no Gateway 3" textAlignment="CENTER" wrappingWidth="498.9999854564667">
-      <font>
-         <Font size="15.0" />
-      </font>
-   </Text>
+   <AnchorPane fx:id="apPiADL" layoutX="145.0" layoutY="79.0" prefHeight="377.0" prefWidth="543.0" visible="false">
+      <children>
+         <Button layoutX="350.0" layoutY="94.0" mnemonicParsing="false" onAction="#chooseFilePiADL" prefHeight="29.0" prefWidth="171.0" style="." styleClass="select-file-button" text="Selecionar arquivo" />
+         <Button layoutX="350.0" layoutY="201.0" mnemonicParsing="false" onAction="#generatePiADL" prefHeight="29.0" prefWidth="171.0" styleClass="generate-piadl-button" text="gerar pi-ADL" textFill="WHITE" />
+         <Button layoutX="22.0" layoutY="332.0" mnemonicParsing="false" onAction="#TestDeadlockView" prefHeight="29.0" prefWidth="499.0" styleClass="generate-piadl-button" text="Testar Deadlock" textFill="WHITE" />
+         <Text layoutX="22.0" layoutY="261.0" text="Com o arquivo .piadl, inicie o Eclipse, que deve possuir o plugin para opiADL ativo (link), então insira e salve o arquivo .piadl. Em seguida,pressione o botão abaixo para testar a ocorrência de deadlocks." textAlignment="CENTER" wrappingWidth="498.9999854564667">
+            <font>
+               <Font size="15.0" />
+            </font>
+         </Text>
+         <Text fx:id="resultPiADL" layoutX="25.0" layoutY="158.0" text="Pressione o botão abaixo para gerar o arquio .piadl" textAlignment="CENTER" wrappingWidth="498.9999854564667">
+            <font>
+               <Font size="15.0" />
+            </font>
+         </Text>
+         <Text layoutX="22.0" layoutY="38.0" text="Selecione o arquivo .bpmn que você deseja converter em pi-ADL" textAlignment="JUSTIFY" wrappingWidth="498.99999360740185">
+            <font>
+               <Font size="17.0" />
+            </font>
+         </Text>
+         <TextField fx:id="tfFilePathPiADL" layoutX="22.0" layoutY="95.0" prefHeight="29.0" prefWidth="311.0" styleClass="text-file-path" />
+         <Text fx:id="errorPiADL" fill="RED" layoutX="22.0" layoutY="187.0" text="Erro: selecione um arquivo válido com extensão .piadl" textAlignment="CENTER" visible="false" wrappingWidth="498.9999854564667">
+            <font>
+               <Font size="15.0" />
+            </font>
+         </Text>
+         <Button layoutX="24.0" layoutY="201.0" mnemonicParsing="false" onAction="#selectSavingPathPiADLOnClick" prefHeight="29.0" prefWidth="311.0" styleClass="select-file-button" text="Selecionar local para salvar" />
+      </children>
+   </AnchorPane>
+   <AnchorPane fx:id="apDeadlockTest" layoutX="155.0" layoutY="89.0" prefHeight="368.0" prefWidth="531.0">
+      <children>
+         <Button layoutX="340.0" layoutY="94.0" mnemonicParsing="false" onAction="#chooseFileDeadlockTest" prefHeight="29.0" prefWidth="171.0" style="." styleClass="select-file-button" text="Selecionar arquivo" />
+         <Button layoutX="10.0" layoutY="238.0" mnemonicParsing="false" onAction="#TestDeadlock" prefHeight="29.0" prefWidth="499.0" styleClass="generate-piadl-button" text="Testar Deadlocks" textFill="WHITE" />
+         <Text layoutX="12.0" layoutY="301.0" text="Com o arquivo .piadl, inicie o Eclipse, que deve possuir o plugin para opiADL ativo (link), então insira e salve o arquivo .piadl. Em seguida, pressione &quot;selecionar arquivo&quot; e encontre o arquivo 'compile' na pasta do projeto gerada pelo Eclipse." textAlignment="JUSTIFY" wrappingWidth="498.9999854564667">
+            <font>
+               <Font size="15.0" />
+            </font>
+         </Text>
+         <Text fx:id="txtResultDeadlockTest" layoutX="13.0" layoutY="163.0" text="Pressione o botão abaixo para testar a ocorrência de deadlocks no modelo selecionado" textAlignment="CENTER" wrappingWidth="498.9999854564667">
+            <font>
+               <Font size="15.0" />
+            </font>
+         </Text>
+         <Text layoutX="11.0" layoutY="38.0" text="Selecione o arquivo compile gerado pelo Eclipse para testar a ocorrencia de deadlocks" textAlignment="JUSTIFY" wrappingWidth="498.99999360740185">
+            <font>
+               <Font size="17.0" />
+            </font>
+         </Text>
+         <TextField fx:id="tfFilePathDeadlockTest" layoutX="11.0" layoutY="95.0" prefHeight="29.0" prefWidth="311.0" styleClass="text-file-path" />
+         <Text fx:id="errorDeadlockTest" fill="RED" layoutY="211.0" text="Erro: selecione um arquivo válido com extensão .piadl" textAlignment="CENTER" visible="false" wrappingWidth="498.9999854564667">
+            <font>
+               <Font size="15.0" />
+            </font>
+         </Text>
+      </children>
+   </AnchorPane>
 </AnchorPane>
