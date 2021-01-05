@@ -185,4 +185,8 @@ public class MainGUI extends Application {
         }
         txtResultDeadlockTest.setText(result);
     }
+
+    public void handleHyperlinkClick(ActionEvent actionEvent) {
+        getHostServices().showDocument("http://plasma4pi-adl.gforge.inria.fr/manual/ar01s02.html#%CF%80-adl-editor-and-code-generator-installation");
+    }
 }
