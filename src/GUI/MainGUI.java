@@ -69,41 +69,37 @@ public class MainGUI extends Application {
     }
 
     public void generatePiADL(Event e) throws ParserConfigurationException {
-        if (tfFilePath.getText().equals("") || !tfFilePath.getText().matches(".*[.]bpmn")) {
-            txtResult.setText("Forneça um arquivo .bpmn válido");
+        errorPiADL.setVisible(false);
+        if (tfFilePathPiADL.getText().equals("") || !tfFilePathPiADL.getText().matches(".*[.]bpmn")) {
+            errorPiADL.setText("Forneça um arquivo .bpmn válido");
+            errorPiADL.setVisible(true);
             return;
         }
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Salvar arquivo .piadl");
         File chosen = fileChooser.showSaveDialog(primaryStage);
-        if (chosen == null || chosen.getPath().equals("")) {
-            txtResult.setText("Forneça um caminho válido para salvar o arquivo");
+        if (savingPiADLPath == null || savingPiADLPath.equals("")) {
+            errorPiADL.setText("Forneça um caminho válido para salvar o arquivo");
+            errorPiADL.setVisible(true);
             return;
         }
 //        if (chosen.getName().matches(".*[.].*") && !chosen.getName().matches(".*[.]piadl")) {
 //            txtResult.setText("Forneça um arquivo com extensão .piadl ou informe apenas o nome do arquivo");
 //            return;
 //        }
-        System.out.println(chosen.getName());
         try {
-            String res = getPiADLFromBPMN(tfFilePath.getText(), getFileNameFromPath(tfFilePath.getText()));
-            //System.out.println(res);
-
-            FileWriter arq = new FileWriter(chosen.getPath().matches(".*[.]piadl")? chosen.getPath() : chosen.getPath() + ".piadl");
+            String res = getPiADLFromBPMN(tfFilePathPiADL.getText(), getFileNameFromPath(tfFilePathPiADL.getText()));
+            FileWriter arq = new FileWriter(savingPiADLPath.matches(".*[.]piadl")? savingPiADLPath : savingPiADLPath + ".piadl");
             PrintWriter gravarArq = new PrintWriter(arq);
             gravarArq.println(res);
             arq.close();
-            txtResult.setText("Arquivo criado com sucesso");
-
-
-
+            resultPiADL.setText("Arquivo criado com sucesso");
         } catch (IOException | SAXException exception) {
             exception.printStackTrace();
-            txtResult.setText("Arquivo .bpmn não encontrado");
+            errorPiADL.setText("Arquivo .bpmn não encontrado");
+            errorPiADL.setVisible(true);
         }
-
-
-        txtResult.setText("Arquivo salvo com sucesso");
+        resultPiADL.setText("Arquivo salvo com sucesso");
     }
 
     private String getFileNameFromPath(String path) {
