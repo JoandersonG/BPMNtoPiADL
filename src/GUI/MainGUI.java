@@ -58,14 +58,14 @@ public class MainGUI extends Application {
         this.primaryStage.setResizable(false);
     }
 
-    public void chooseFile(Event e) {
+    public void chooseFile(TextField textField, String title) {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Selecione o arquivo .bpmn");
+        fileChooser.setTitle(title);
         File chosen = fileChooser.showOpenDialog(primaryStage);
         if (chosen == null) {
             return;
         }
-        tfFilePath.setText(chosen.getPath());
+        textField.setText(chosen.getPath());
     }
 
     public void generatePiADL(Event e) throws ParserConfigurationException {
