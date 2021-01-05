@@ -50,7 +50,7 @@
    <AnchorPane fx:id="apDeadlockTest" layoutX="155.0" layoutY="89.0" prefHeight="368.0" prefWidth="531.0" visible="false">
       <children>
          <Button layoutX="340.0" layoutY="94.0" mnemonicParsing="false" onAction="#chooseFileDeadlockTest" prefHeight="29.0" prefWidth="171.0" style="." styleClass="select-file-button" text="Selecionar arquivo" />
-         <Button layoutX="10.0" layoutY="238.0" mnemonicParsing="false" onAction="#TestDeadlock" prefHeight="29.0" prefWidth="499.0" styleClass="generate-piadl-button" text="Testar Deadlocks" textFill="WHITE" />
+         <Button layoutX="10.0" layoutY="238.0" mnemonicParsing="false" onAction="#testDeadlock" prefHeight="29.0" prefWidth="499.0" styleClass="generate-piadl-button" text="Testar Deadlocks" textFill="WHITE" />
          <Text layoutX="12.0" layoutY="301.0" text="Com o arquivo .piadl, inicie o Eclipse, que deve possuir o plugin para o pi-ADL ativo         , então insira e salve o arquivo .piadl. Em seguida, pressione &quot;selecionar arquivo&quot; e encontre o arquivo 'compile' na pasta do projeto gerada pelo Eclipse." textAlignment="JUSTIFY" wrappingWidth="498.9999854564667">
             <font>
                <Font size="15.0" />

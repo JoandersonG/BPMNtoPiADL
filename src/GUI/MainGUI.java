@@ -169,7 +169,7 @@ public class MainGUI extends Application {
         }
     }
 
-    public void TestDeadlock(ActionEvent actionEvent) {
+    public void testDeadlock(ActionEvent actionEvent) {
         errorDeadlockTest.setVisible(false);
         if (tfFilePathDeadlockTest == null || tfFilePathDeadlockTest.getText().equals("")) {
             errorDeadlockTest.setText("Forneça um caminho para o arquivo compile, localizado dentro do projeto criado no Eclipse");
