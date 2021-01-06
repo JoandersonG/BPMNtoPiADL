@@ -8,7 +8,13 @@ Este é um prorgama criado pra realizar duas tarefas distintas:<br>
 
  <img style="border-radius: 50%;" src="https://avatars3.githubusercontent.com/u/39781143?s=460&u=43508c7e94057574d4d8f06cbdbc02280102e094&v=4" width="100px;" alt=""/>
 
-Feito com carinho por Joanderson Gonçalves =}
+Feito por Joanderson Gonçalves Santos<br>
+Bacharelando em Ciência da Computação<br>
+Bolsista FAPESB do Programa de Iniciação Científica<br>
+Sob orientação da profa. Dra. Rita Suzana Pitangueiras Maciel<br>
+Departamento de Ciência da Computação<br>
+Instituto de Matemática<br>
+Universidade Federal da Bahia
 <br><br>
 E-mail: <a href="mailto:joandersongsantos@yahoo.com">joandersongsantos@yahoo.com</a>
 <br>
