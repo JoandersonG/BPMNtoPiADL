@@ -8,7 +8,7 @@
    <ToggleButton fx:id="aboutMenuButton" layoutY="331.0" mnemonicParsing="false" onAction="#aboutMenuHandleOnClick" prefHeight="128.0" prefWidth="147.0" styleClass="menu-button" text="Sobre a Aplicação" textFill="WHITE" />
    <ToggleButton fx:id="testDeadlockMenuButton" layoutY="203.0" mnemonicParsing="false" onAction="#testDeadlockMenuHandleOnClick" prefHeight="128.0" prefWidth="147.0" styleClass="menu-button" text="Testar Deadlock" textFill="WHITE" />
    <ToggleButton fx:id="piADLMenuButton" layoutY="79.0" mnemonicParsing="false" onAction="#piADLMenuButtonHandleOnClick" prefHeight="128.0" prefWidth="147.0" selected="true" styleClass="menu-button" text="Gerar pi-ADL" textFill="WHITE" />
-   <AnchorPane layoutY="-1.0" prefHeight="80.0" prefWidth="688.0" style="-fx-background-color: #ff6600;">
+   <AnchorPane layoutY="-1.0" prefHeight="80.0" prefWidth="688.0" style="-fx-background-color: #8800aa;">
       <children>
          <Text fill="WHITE" layoutX="193.0" layoutY="51.0" text="Teste de Deadlock" textAlignment="CENTER" wrappingWidth="322.78955078125">
             <font>

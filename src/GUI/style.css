@@ -1,5 +1,5 @@
 .menu-button {
-    -fx-background-color: #000080;
+    -fx-background-color: #4f0080;
     -fx-background-radius: 0px;
     -fx-border-color:black;
     -fx-border-width: 1 1 1 1;
@@ -8,10 +8,10 @@
     -fx-background-color: #6800aa;
 }
 .menu-button:selected {
-    -fx-background-color: #4400aa;
+    -fx-background-color: #6800aa;
 }
 .generate-piadl-button {
-    -fx-background-color: #ff6600;
+    -fx-background-color: #8800aa;
     -fx-background-radius: 0px;
     -fx-border-color:black;
     -fx-border-width: 1 1 1 1;
