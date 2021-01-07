@@ -75,4 +75,57 @@
          <Hyperlink layoutX="160.0" layoutY="302.0" onAction="#handleHyperlinkClick" text="(link)" />
       </children>
    </AnchorPane>
+   <AnchorPane fx:id="apAbout" layoutX="147.0" layoutY="79.0" prefHeight="377.0" prefWidth="543.0" visible="false">
+      <children>
+         <Text layoutX="14.0" layoutY="27.0" text="Este é um prorgama criado pra realizar duas tarefas distintas:" textAlignment="JUSTIFY" wrappingWidth="498.99999360740185">
+            <font>
+               <Font size="14.0" />
+            </font>
+         </Text>
+         <Text layoutX="14.0" layoutY="53.0" text="1. A primeira tarefa que o programa resolve é a geração de código na linguagem pi-ADL a partir de arquivos .bpmn gerados na plataforma, chamada Yaoqiang, de design de modelos do diagrama de coreografia BPMN 2.0. O programa utiliza o mapeamento de BPMN para pi-ADL utilizando o trabalho de mestrado de Leila de Carvalho Costa do Programa de Pós-Graduação em Ciência da Computação da Universidade Federal da Bahia." textAlignment="JUSTIFY" wrappingWidth="498.99999360740185">
+            <font>
+               <Font size="14.0" />
+            </font>
+         </Text>
+         <Text layoutX="12.0" layoutY="179.0" text="2. A segunda tarefa que o programa resolve é o teste de ocorrência de deadlocks, incluindo o nome de um elemento na área que ocorreu o deadlock no modelo original BPMN." textAlignment="JUSTIFY" wrappingWidth="498.99999360740185">
+            <font>
+               <Font size="14.0" />
+            </font>
+         </Text>
+         <Text layoutX="12.0" layoutY="243.0" text="Autor: Joanderson Gonçalves santos" textAlignment="JUSTIFY" wrappingWidth="498.99999360740185">
+            <font>
+               <Font size="14.0" />
+            </font>
+         </Text>
+         <Text layoutX="12.0" layoutY="264.0" text="Tutora: Leila de Carvalho Costa" textAlignment="JUSTIFY" wrappingWidth="498.99999360740185">
+            <font>
+               <Font size="14.0" />
+            </font>
+         </Text>
+         <Text layoutX="12.0" layoutY="284.0" text="Orientadora: profa. Dra Rita Suzana pitangueira Maciel" textAlignment="JUSTIFY" wrappingWidth="498.99999360740185">
+            <font>
+               <Font size="14.0" />
+            </font>
+         </Text>
+         <Text layoutX="12.0" layoutY="315.0" text="Departamento de Ciência da Computação" textAlignment="JUSTIFY" wrappingWidth="498.99999360740185">
+            <font>
+               <Font size="14.0" />
+            </font>
+         </Text>
+         <Text layoutX="12.0" layoutY="333.0" text="Instituto de Matemática" textAlignment="JUSTIFY" wrappingWidth="498.99999360740185">
+            <font>
+               <Font size="14.0" />
+            </font>
+         </Text>
+         <Text layoutX="12.0" layoutY="351.0" text="Universidade Federal da Bahia" textAlignment="JUSTIFY" wrappingWidth="498.99999360740185">
+            <font>
+               <Font size="14.0" />
+            </font>
+         </Text>
+         <Text layoutX="22.0" layoutY="368.0" text="Contato: joandersongsantos@yahoo.com" textAlignment="RIGHT" wrappingWidth="498.99999360740185">
+            <font>
+               <Font size="14.0" />
+            </font>
+         </Text>
+      </children></AnchorPane>
 </AnchorPane>

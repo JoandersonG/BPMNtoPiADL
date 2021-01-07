@@ -28,6 +28,7 @@ public class MainGUI extends Application {
     public Text errorPiADL;
     public Text resultPiADL;
     public Text errorDeadlockTest;
+    public AnchorPane apAbout;
     private Stage primaryStage;
     @FXML
     public ToggleButton testDeadlockMenuButton;
@@ -131,6 +132,7 @@ public class MainGUI extends Application {
 
         apPiADL.setVisible(true);
         apDeadlockTest.setVisible(false);
+        apAbout.setVisible(false);
     }
 
     public void testDeadlockMenuHandleOnClick(ActionEvent actionEvent) {
@@ -142,6 +144,7 @@ public class MainGUI extends Application {
 
         apPiADL.setVisible(false);
         apDeadlockTest.setVisible(true);
+        apAbout.setVisible(false);
     }
 
     public void aboutMenuHandleOnClick(ActionEvent actionEvent) {
@@ -150,6 +153,10 @@ public class MainGUI extends Application {
         }
         testDeadlockMenuButton.setSelected(false);
         piADLMenuButton.setSelected(false);
+
+        apAbout.setVisible(true);
+        apPiADL.setVisible(false);
+        apDeadlockTest.setVisible(false);
     }
 
     public void chooseFileDeadlockTest(ActionEvent actionEvent) {
