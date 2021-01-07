@@ -131,6 +131,11 @@ public class YaoqiangXMLParser {
                 return ct;
             }
         }
+        for (Gateway g : gateways) {
+            if (g.getId().equals(id)) {
+                return g;
+            }
+        }
         return null;
     }
 
