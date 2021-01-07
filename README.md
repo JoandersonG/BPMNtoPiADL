@@ -22,7 +22,8 @@ Este é um prorgama criado pra realizar duas tarefas distintas:<br>
 Feito por Joanderson Gonçalves Santos<br>
 Bacharelando em Ciência da Computação<br>
 Bolsista FAPESB do Programa de Iniciação Científica<br>
-Sob orientação da profa. Dra. Rita Suzana Pitangueiras Maciel<br>
+Sob tutoria de Leila de Carvalho Costa<br>
+E sob orientação da profa. Dra. Rita Suzana Pitangueira Maciel<br>
 Departamento de Ciência da Computação<br>
 Instituto de Matemática<br>
 Universidade Federal da Bahia
