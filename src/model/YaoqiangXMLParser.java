@@ -601,6 +601,9 @@ public class YaoqiangXMLParser {
         for (StartEvent se : startEvents) {
             for (int i = 0; i < se.getOutgoings().size(); i++) {
                 ArrayList<Unification> us = findUnificationByFrom(unifications, se);
+                if (us.size() == 0) { //there is no connections in se[i]
+                    continue;
+                }
                 us.get(i).setFromPort(se.getOutgoings().get(i));
             }
         }
