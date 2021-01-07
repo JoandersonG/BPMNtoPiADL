@@ -66,7 +66,7 @@ public class YaoqiangXMLParser {
                 Element participant = (Element) node;
                 String participantId = participant.getAttribute("id");
                 String participantName = participant.getAttribute("name");
-                participants.add(new Participant(participantId, participantName));
+                participants.add(new Participant(participantId, participantName, participantName.replaceAll(" ", "")));
             }
         }
     }
