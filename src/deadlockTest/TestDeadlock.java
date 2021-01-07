@@ -22,7 +22,32 @@ public static String performDeadlockTest(String workingDirectory) {
             exec.waitFor();
 
             //  Execute compile program
-            execProgramAsChildProcess(workingDirectory + "/./" + "compile");
+            ProcessBuilder builder = new ProcessBuilder("/bin/bash");
+            Process p = null;
+            try {
+                p = builder.start();
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+            assert p != null;
+            BufferedWriter pIn = new BufferedWriter(new OutputStreamWriter(p.getOutputStream()));
+            pIn.write("cd " + workingDirectory);
+            pIn.newLine();
+            pIn.flush();
+            pIn.write("./compile");
+            pIn.newLine();
+            pIn.flush();
+            try {
+                pIn.write("exit");
+                pIn.newLine();
+                pIn.flush();
+            }
+            catch (IOException e) {
+                System.out.println(e);
+            }
+            p.waitFor();
+
             //    Execute model internally looking for deadlock message
             String programName = getProgramName(workingDirectory);
             String result = execProgramAsChildProcess(workingDirectory + "/./" + programName);
