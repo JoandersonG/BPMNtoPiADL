@@ -18,7 +18,7 @@ public static String performDeadlockTest(String workingDirectory) {
         }
         try {
             // Change permissions of compile program
-            Process exec = Runtime.getRuntime().exec("chmod u+x "+ workingDirectory);
+            Process exec = Runtime.getRuntime().exec("chmod +x "+ workingDirectory + "/compile");
             exec.waitFor();
 
             //  Execute compile program
