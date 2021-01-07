@@ -90,22 +90,22 @@ public class ChoreographyTask extends Component{
                 .append("\tconnection ").append(incoming).append(" is in (Integer)\n")
                 .append("\tconnection ").append(outgoing).append(" is out (Integer)\n");
 
-        piADLcode.append("\tconnection ").append(initParticipant.getName()).append(" is in (String)\n")
-                 .append("\tconnection ").append(initParticipant.getName()).append("2 is out (String)\n");
+        piADLcode.append("\tconnection ").append(initParticipant.getNewName()).append(" is in (String)\n")
+                 .append("\tconnection ").append(initParticipant.getNewName()).append("2 is out (String)\n");
         for (Participant p : participants) {
             if (p.equals(initParticipant)) {
                 continue;
             }
-            piADLcode.append("\tconnection ").append(p.getName()).append(" is out (String)\n")
-                    .append("\tconnection ").append(p.getName()).append("2 is in (String)\n");
+            piADLcode.append("\tconnection ").append(p.getNewName()).append(" is out (String)\n")
+                    .append("\tconnection ").append(p.getNewName()).append("2 is in (String)\n");
         }
         piADLcode.append("\tprotocol is {\n")
                 .append("\t\t(via ").append(incoming).append(" receive Integer |")
                 .append(" via ").append(outgoing).append(" send Integer |\n");
         for (int i = 0; i < participants.size(); i++) {
             Participant p = participants.get(i);
-            piADLcode.append("\t\tvia ").append(p.getName()).append(p.equals(initParticipant) ? " receive" : " send").append(" String |\n")
-                    .append("\t\tvia ").append(p.getName()).append("2").append(p.equals(initParticipant) ? " send" : " receive").append(" String");
+            piADLcode.append("\t\tvia ").append(p.getNewName()).append(p.equals(initParticipant) ? " receive" : " send").append(" String |\n")
+                    .append("\t\tvia ").append(p.getNewName()).append("2").append(p.equals(initParticipant) ? " send" : " receive").append(" String");
             if (i+1 == participants.size()) {
                 piADLcode.append(")*\n");
             } else {
@@ -115,15 +115,15 @@ public class ChoreographyTask extends Component{
         piADLcode.append("\t}\n")
             .append("\tbehavior is {\n")
             .append("\t\tvia ").append(incoming).append(" receive x : Integer\n")
-            .append("\t\tvia ").append(initParticipant.getName()).append(" receive msg : String\n");
+            .append("\t\tvia ").append(initParticipant.getNewName()).append(" receive msg : String\n");
         for (int i = 0; i < participants.size(); i++) {
             Participant p = participants.get(i);
             if (p.equals(initParticipant)) {
                 continue;
             }
-            piADLcode.append("\t\tvia ").append(p.getName()).append(" send msg\n")
-                    .append("\t\tvia ").append(p.getName()).append("2 receive msg").append(i+1).append(" : String\n");
-            piADLcode.append("\t\tvia ").append(initParticipant.getName()).append("2 send msg").append(i+1).append("\n");
+            piADLcode.append("\t\tvia ").append(p.getNewName()).append(" send msg\n")
+                    .append("\t\tvia ").append(p.getNewName()).append("2 receive msg").append(i+1).append(" : String\n");
+            piADLcode.append("\t\tvia ").append(initParticipant.getNewName()).append("2 send msg").append(i+1).append("\n");
         }
         piADLcode.append("\t\tvia ").append(outgoing)
             .append(" send x\n")

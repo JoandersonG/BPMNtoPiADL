@@ -3,10 +3,20 @@ package model;
 public class Participant {
     private String id;
     private String name;
+    private String newName;
 
-    public Participant(String id, String name) {
+    public Participant(String id, String name, String newName) {
         this.id = id;
         this.name = name;
+        this.newName = newName;
+    }
+
+    public String getNewName() {
+        return newName;
+    }
+
+    public void setNewName(String newName) {
+        this.newName = newName;
     }
 
     public String getId() {
