@@ -71,7 +71,7 @@ public static String performDeadlockTest(String workingDirectory) {
             }
         }
         if (sb.toString().equals("")) {
-            return "Não foi possível obter saída de execução interna em busca de deadlocks";
+            return "Não foi detectado nenhum deadlock no modelo";
         }
         isr.close();
         reader.close();
