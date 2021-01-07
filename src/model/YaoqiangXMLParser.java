@@ -664,4 +664,12 @@ public class YaoqiangXMLParser {
         }
         return unificationsMatch;
     }
+
+    public String getComponentsOriginalName(String componentId) {
+        Component c = getComponent(componentId);
+        if (c == null) {
+            return null;
+        }
+        return c.getName();
+    }
 }

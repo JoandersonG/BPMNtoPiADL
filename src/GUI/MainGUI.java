@@ -188,6 +188,15 @@ public class MainGUI extends Application {
             errorDeadlockTest.setVisible(true);
             return;
         }
+        if (result.matches("deadlock.*") && parser != null) {
+            //get the element where the deadlock occurred
+            String[] split = result.split(" ");
+            String element = split[split.length - 1];
+            String originalName = parser.getComponentsOriginalName(element);
+            if (originalName != null) {
+                result = result.replaceFirst(element, originalName);
+            }
+        }
         txtResultDeadlockTest.setText(result);
     }
 
