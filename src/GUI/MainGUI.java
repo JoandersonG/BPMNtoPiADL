@@ -40,6 +40,7 @@ public class MainGUI extends Application {
     @FXML
     public AnchorPane apDeadlockTest;
     private String savingPiADLPath = null;
+    private YaoqiangXMLParser parser;
 
 
     public static void main(String[] args) {
@@ -106,7 +107,7 @@ public class MainGUI extends Application {
 
     private String getPiADLFromBPMN(String filePath, String fileName) throws IOException, SAXException, ParserConfigurationException {
         try {
-            YaoqiangXMLParser parser = new YaoqiangXMLParser();
+            parser = new YaoqiangXMLParser();
             parser.parseBPMN(filePath);
             return parser.generatePiADL(fileName);
         } catch (FileNotFoundException exception) {
