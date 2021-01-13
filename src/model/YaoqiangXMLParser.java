@@ -47,7 +47,7 @@ public class YaoqiangXMLParser {
             parseMessageAssociation(doc);
             parseMessageFlows(doc);
             parseConnectors(doc);
-            parseCoreographyTasks(doc);
+            parseChoreographyTasks(doc);
             parseSubChoreographyTasks(doc);
             parseStartEvents(doc);
             parseEndEvents(doc);
@@ -158,7 +158,7 @@ public class YaoqiangXMLParser {
         }
     }
 
-    private void parseCoreographyTasks(Document doc) {
+    private void parseChoreographyTasks(Document doc) {
         NodeList tasksList = doc.getElementsByTagName("choreographyTask");
         for (int i = 0; i < tasksList.getLength(); i++) {
             Node node = tasksList.item(i);
