@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="swingGUI.SwingMain">
+  <grid id="27dc6" binding="mainPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+    <constraints>
+      <xy x="20" y="20" width="1430" height="582"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <grid id="47c92" layout-manager="GridLayoutManager" row-count="3" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints border-constraint="West"/>
+        <properties>
+          <background color="-11599744"/>
+          <foreground color="-11599744"/>
+          <minimumSize width="160" height="154"/>
+          <preferredSize width="160" height="154"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="778e8" class="javax.swing.JButton" binding="generatePiADLButton">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                <preferred-size width="209" height="30"/>
+              </grid>
+            </constraints>
+            <properties>
+              <background color="-11599744"/>
+              <foreground color="-263681"/>
+              <text value="Gerar pi-ADL"/>
+            </properties>
+          </component>
+          <component id="4cb9d" class="javax.swing.JButton" binding="testDeadlockButton" default-binding="true">
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                <preferred-size width="209" height="30"/>
+              </grid>
+            </constraints>
+            <properties>
+              <background color="-11599744"/>
+              <foreground color="-263681"/>
+              <text value="Testar Deadlock"/>
+            </properties>
+          </component>
+          <component id="ea892" class="javax.swing.JButton" binding="aboutApplicationButton" default-binding="true">
+            <constraints>
+              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                <preferred-size width="209" height="30"/>
+              </grid>
+            </constraints>
+            <properties>
+              <background color="-11599744"/>
+              <foreground color="-263681"/>
+              <text value="Sobre a aplicação"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <grid id="52877" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints border-constraint="North"/>
+        <properties>
+          <background color="-7864150"/>
+          <foreground color="-7864150"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="4090d" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                <preferred-size width="187" height="44"/>
+              </grid>
+            </constraints>
+            <properties>
+              <background color="-263681"/>
+              <font name="Fira Code Medium" size="18" style="1"/>
+              <foreground color="-263681"/>
+              <text value="Geração de pi-ADL e Teste de Deadlock"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <grid id="745b3" layout-manager="GridLayoutManager" row-count="21" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints border-constraint="Center"/>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="9c38" class="javax.swing.JLabel" binding="lPiADL">
+            <constraints>
+              <grid row="1" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="4" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Selecione o arquivo .bpmn que você deseja converter em pi-ADL"/>
+            </properties>
+          </component>
+          <vspacer id="fd052">
+            <constraints>
+              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                <minimum-size width="10" height="10"/>
+                <preferred-size width="785" height="10"/>
+                <maximum-size width="10" height="10"/>
+              </grid>
+            </constraints>
+          </vspacer>
+          <component id="77223" class="javax.swing.JTextField" binding="tfBPMNPath">
+            <constraints>
+              <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <minimum-size width="-1" height="30"/>
+                <preferred-size width="-1" height="30"/>
+                <maximum-size width="-1" height="30"/>
+              </grid>
+            </constraints>
+            <properties/>
+          </component>
+          <component id="e3ea" class="javax.swing.JButton" binding="btSelectFilePiADL">
+            <constraints>
+              <grid row="5" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                <minimum-size width="180" height="30"/>
+                <preferred-size width="180" height="30"/>
+                <maximum-size width="180" height="30"/>
+              </grid>
+            </constraints>
+            <properties>
+              <actionCommand value=""/>
+              <background color="-263681"/>
+              <foreground color="-16777216"/>
+              <text value="Selecionar arquivo"/>
+            </properties>
+          </component>
+          <vspacer id="d198e">
+            <constraints>
+              <grid row="20" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                <preferred-size width="10" height="10"/>
+              </grid>
+            </constraints>
+          </vspacer>
+          <vspacer id="445d6">
+            <constraints>
+              <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                <minimum-size width="10" height="10"/>
+                <preferred-size width="785" height="10"/>
+                <maximum-size width="10" height="10"/>
+              </grid>
+            </constraints>
+          </vspacer>
+          <hspacer id="44b8c">
+            <constraints>
+              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                <minimum-size width="10" height="10"/>
+                <preferred-size width="10" height="10"/>
+                <maximum-size width="10" height="10"/>
+              </grid>
+            </constraints>
+          </hspacer>
+          <vspacer id="34fd3">
+            <constraints>
+              <grid row="7" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                <minimum-size width="10" height="10"/>
+                <preferred-size width="785" height="10"/>
+                <maximum-size width="10" height="10"/>
+              </grid>
+            </constraints>
+          </vspacer>
+          <component id="b9d3c" class="javax.swing.JLabel" binding="resultPiADL">
+            <constraints>
+              <grid row="8" column="1" row-span="1" col-span="2" vsize-policy="2" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Pressione o botão abaixo para gerar o arquivo .piadl"/>
+            </properties>
+          </component>
+          <vspacer id="45113">
+            <constraints>
+              <grid row="10" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                <minimum-size width="10" height="10"/>
+                <preferred-size width="785" height="10"/>
+                <maximum-size width="10" height="10"/>
+              </grid>
+            </constraints>
+          </vspacer>
+          <component id="d9c87" class="javax.swing.JLabel" binding="errorPiADL">
+            <constraints>
+              <grid row="11" column="1" row-span="1" col-span="2" vsize-policy="2" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <foreground color="-4520192"/>
+              <text value="Erro: não foi possível executar o modelo"/>
+            </properties>
+          </component>
+          <vspacer id="c0541">
+            <constraints>
+              <grid row="13" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                <minimum-size width="10" height="10"/>
+                <preferred-size width="785" height="10"/>
+                <maximum-size width="10" height="10"/>
+              </grid>
+            </constraints>
+          </vspacer>
+          <component id="55c42" class="javax.swing.JButton" binding="selectPlaceSavePiADL">
+            <constraints>
+              <grid row="14" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                <minimum-size width="-1" height="30"/>
+                <preferred-size width="-1" height="30"/>
+                <maximum-size width="-1" height="30"/>
+              </grid>
+            </constraints>
+            <properties>
+              <background color="-263681"/>
+              <text value="Selecionar local para salvar"/>
+            </properties>
+          </component>
+          <component id="9b9fc" class="javax.swing.JButton" binding="btGeneratePiADL" default-binding="true">
+            <constraints>
+              <grid row="14" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                <minimum-size width="-1" height="30"/>
+                <preferred-size width="-1" height="30"/>
+                <maximum-size width="-1" height="30"/>
+              </grid>
+            </constraints>
+            <properties>
+              <background color="-7864150"/>
+              <foreground color="-263681"/>
+              <text value="Gerar pi-ADL"/>
+            </properties>
+          </component>
+          <vspacer id="fca38">
+            <constraints>
+              <grid row="16" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                <minimum-size width="10" height="10"/>
+                <preferred-size width="785" height="10"/>
+                <maximum-size width="10" height="10"/>
+              </grid>
+            </constraints>
+          </vspacer>
+          <component id="abcaa" class="javax.swing.JLabel" binding="labelInstructionsGeneratePiADL">
+            <constraints>
+              <grid row="17" column="1" row-span="1" col-span="2" vsize-policy="2" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Com o arquivo .piadl, inicie o Eclipse, que deve possuir o plugin para o pi-ADL arivo (link), então insira e  salve o arquivo .piadl. Em sequida, pressione o botão abaixo para testar a ocorrência de deadlocks."/>
+            </properties>
+          </component>
+          <vspacer id="c5618">
+            <constraints>
+              <grid row="18" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                <minimum-size width="10" height="10"/>
+                <preferred-size width="785" height="10"/>
+                <maximum-size width="10" height="10"/>
+              </grid>
+            </constraints>
+          </vspacer>
+          <component id="91859" class="javax.swing.JButton" binding="btTestDeadlockPiADL">
+            <constraints>
+              <grid row="19" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                <minimum-size width="-1" height="30"/>
+                <preferred-size width="-1" height="30"/>
+                <maximum-size width="-1" height="30"/>
+              </grid>
+            </constraints>
+            <properties>
+              <background color="-7864150"/>
+              <foreground color="-263681"/>
+              <text value="Testar Deadlock"/>
+            </properties>
+          </component>
+          <hspacer id="224d3">
+            <constraints>
+              <grid row="4" column="3" row-span="1" col-span="1" vsize-policy="1" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                <minimum-size width="10" height="10"/>
+                <preferred-size width="10" height="10"/>
+                <maximum-size width="10" height="10"/>
+              </grid>
+            </constraints>
+          </hspacer>
+          <component id="a462f" class="javax.swing.JLabel" binding="lDeadlock">
+            <constraints>
+              <grid row="2" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Selecione o arquivo 'compile' gerado pelo Eclipse para testar a ocorrência de deadlocks"/>
+            </properties>
+          </component>
+          <component id="9892b" class="javax.swing.JTextField" binding="tfDeadlockPath">
+            <constraints>
+              <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <minimum-size width="460" height="30"/>
+                <preferred-size width="460" height="30"/>
+                <maximum-size width="460" height="30"/>
+              </grid>
+            </constraints>
+            <properties/>
+          </component>
+          <component id="b0315" class="javax.swing.JButton" binding="btSelectFileDeadlock">
+            <constraints>
+              <grid row="6" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                <minimum-size width="180" height="30"/>
+                <preferred-size width="180" height="30"/>
+                <maximum-size width="180" height="30"/>
+              </grid>
+            </constraints>
+            <properties>
+              <actionCommand value=""/>
+              <background color="-263681"/>
+              <text value="Selecionar arquivo"/>
+            </properties>
+          </component>
+          <component id="23d9" class="javax.swing.JLabel" binding="resultDeadlock">
+            <constraints>
+              <grid row="9" column="1" row-span="1" col-span="2" vsize-policy="2" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Pressione o botão abaixo para testar a ocorrência de deadlocks no modelo selecionado"/>
+            </properties>
+          </component>
+          <component id="ce863" class="javax.swing.JLabel" binding="errorDeadlock">
+            <constraints>
+              <grid row="12" column="1" row-span="1" col-span="2" vsize-policy="2" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <foreground color="-4520192"/>
+              <text value="Erro: não foi possível executar o modelo"/>
+            </properties>
+          </component>
+          <component id="58c9e" class="javax.swing.JButton" binding="btTestDeadlock">
+            <constraints>
+              <grid row="15" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                <minimum-size width="-1" height="30"/>
+                <preferred-size width="-1" height="30"/>
+                <maximum-size width="-1" height="30"/>
+              </grid>
+            </constraints>
+            <properties>
+              <background color="-7864150"/>
+              <foreground color="-263681"/>
+              <text value="Testar Deadlock"/>
+            </properties>
+          </component>
+          <component id="7b68c" class="javax.swing.JLabel" binding="lAboutApplication">
+            <constraints>
+              <grid row="3" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="4" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <font/>
+              <text value="Sobre a aplicação"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+    </children>
+  </grid>
+</form>
