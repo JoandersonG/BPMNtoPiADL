@@ -12,11 +12,12 @@ public class ChoreographyTask extends Component{
     public ChoreographyTask(
             String id,
             String name,
+            String originalName,
             Participant initParticipant,
             ArrayList<Participant> participants,
             ArrayList<String> messageFlowIds
     ) {
-        super(name, id);
+        super(name, originalName, id);
         this.initParticipant = initParticipant;
         this.participants = participants;
         this.messageFlowIds = messageFlowIds;
@@ -86,7 +87,7 @@ public class ChoreographyTask extends Component{
         StringBuilder piADLcode = new StringBuilder();
         incoming = "entrada";
         outgoing = "saida";
-        piADLcode.append("component ").append(getId()).append(" is abstraction (){\n")
+        piADLcode.append("component ").append(getName()).append(" is abstraction (){\n")
                 .append("\tconnection ").append(incoming).append(" is in (Integer)\n")
                 .append("\tconnection ").append(outgoing).append(" is out (Integer)\n");
 

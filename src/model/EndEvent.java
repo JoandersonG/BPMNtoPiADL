@@ -5,8 +5,8 @@ import java.util.ArrayList;
 public class EndEvent extends Component {
     private ArrayList<String> incomings;
 
-    public EndEvent(String name, String id, ArrayList<String> incomings) {
-        super(name, id);
+    public EndEvent(String name, String originalName, String id, ArrayList<String> incomings) {
+        super(name, originalName, id);
         this.incomings = incomings;
     }
 
@@ -30,7 +30,7 @@ public class EndEvent extends Component {
 
     public String toPiADL() {
         StringBuilder piADLcode = new StringBuilder();
-        piADLcode.append("component ").append(getId()).append(" is abstraction (){\n");
+        piADLcode.append("component ").append(getName()).append(" is abstraction (){\n");
         for (int i = 0; i < incomings.size(); i++) {
             incomings.set(i, "entrada_" + (i+1));
             piADLcode.append("\tconnection ").append(incomings.get(i)).append(" is in (Integer)\n");

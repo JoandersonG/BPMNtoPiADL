@@ -204,7 +204,7 @@ public class SwingMain {
             //get the element where the deadlock occurred
             String[] split = result.split(" ");
             String element = split[split.length - 1];
-            String originalName = parser.getComponentsOriginalName(element);
+            String originalName = parser.getComponentsOriginalName(element.replaceFirst("_",""));
             if (originalName != null) {
                 result = result.replaceFirst(element, originalName);
             }

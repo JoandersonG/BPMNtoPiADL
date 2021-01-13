@@ -9,8 +9,8 @@ public class Gateway extends Component {
     private ArrayList<String> outgoings;
     private Type type;
 
-    public Gateway(String name, String id, ArrayList<String> incomings, ArrayList<String> outgoings, Type type) {
-        super(name, id);
+    public Gateway(String name, String originalName, String id, ArrayList<String> incomings, ArrayList<String> outgoings, Type type) {
+        super(name, originalName, id);
         this.incomings = incomings;
         this.outgoings = outgoings;
         this.type = type;
@@ -57,7 +57,7 @@ public class Gateway extends Component {
 
     private String parallelGatewayToPiADL() {
         StringBuilder s = new StringBuilder();
-        s.append("component ").append(getId()).append(" is abstraction (){\n");
+        s.append("component ").append(getName()).append(" is abstraction (){\n");
         for (int i = 0; i < incomings.size(); i++) {
             incomings.set(i, "entrada" + (i+1));
             s.append("\tconnection ").append(incomings.get(i)).append(" is in (Integer)\n");
@@ -106,7 +106,7 @@ public class Gateway extends Component {
 
     private String exclusiveGatewayToPiADL() {
         StringBuilder s = new StringBuilder();
-        s.append("component ").append(getId()).append(" is abstraction (){\n");
+        s.append("component ").append(getName()).append(" is abstraction (){\n");
         for (int i = 0; i < incomings.size(); i++) {
             incomings.set(i, "entrada" + (i+1));
             s.append("\tconnection ").append(incomings.get(i)).append(" is in (Integer)\n");
@@ -166,7 +166,7 @@ public class Gateway extends Component {
                     s.append("\t\t\tbehavior()\n");
                 } else {
                     //múltiplas entradas, múltiplas saídas
-                    s.append("\t\t\tchoose {\n");
+                    /*s.append("\t\t\tchoose {\n");
                     for (int j = 0; j < outgoings.size(); j++) {
                         s.append("\t\t\t\tvia ").append("saida").append(j+1).append(" send x").append(i+1).append("\n");
                         s.append("\t\t\t\tbehavior()\n");
@@ -174,6 +174,18 @@ public class Gateway extends Component {
                             s.append("\t\t\t}\n");
                         } else {
                             s.append("\t\t\tor\n");
+                        }
+                    }*/
+                    s.append("\t\t\tif x").append(i + 1).append(" < 10 then {\n");
+                    for (int j = 0; j < outgoings.size(); j++) {
+                        s.append("\t\t\t\tvia ").append("saida").append(j+1).append(" send x").append(i+1).append("\n");
+                        s.append("\t\t\t\tbehavior()\n");
+                        if (j+2 == outgoings.size()) {
+                            s.append("\t\t\t} else{\n");
+                        }else if (j+1 == outgoings.size()) {
+                            s.append("\t\t\t}\n");
+                        } else {
+                            s.append("\t\t\t} else if x").append(i + 1).append(" < 10 then{\n");
                         }
                     }
                 }

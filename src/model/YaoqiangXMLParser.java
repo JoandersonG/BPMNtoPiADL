@@ -165,8 +165,9 @@ public class YaoqiangXMLParser {
             if (node.getNodeType() == Node.ELEMENT_NODE) {
                 Element task = (Element) node;
                 Participant initiating = getParticipant(task.getAttribute("initiatingParticipantRef"));
-                String name = task.getAttribute("name");
-                String id = name.equals("") ? getValidId("Task", String.valueOf(i + 1)) : getValidId(name, String.valueOf(i + 1));
+                String originalName = task.getAttribute("name");
+                String componentName = originalName.equals("") ? getValidId("Task", String.valueOf(i + 1)) : getValidId(originalName, String.valueOf(i + 1));
+                String id = task.getAttribute("id");
                 String incoming = "";
                 String outgoing = "";
                 ArrayList<Participant> choreoParticipants = new ArrayList<>();
@@ -197,7 +198,8 @@ public class YaoqiangXMLParser {
                 Connector out = getConnector(outgoing);
                 ChoreographyTask ct = new ChoreographyTask(
                         id,
-                        name,
+                        componentName,
+                        originalName,
                         initiating,
                         choreoParticipants,
                         messageFlowIds
@@ -220,8 +222,9 @@ public class YaoqiangXMLParser {
             if (node.getNodeType() == Node.ELEMENT_NODE) {
                 Element task = (Element) node;
                 Participant initiating = getParticipant(task.getAttribute("initiatingParticipantRef"));
-                String name = task.getAttribute("name");
-                String id = name.equals("") ? getValidId("SubTask", String.valueOf(i + 1)) : getValidId(name, String.valueOf(i + 1));
+                String originalName = task.getAttribute("name");
+                String componentName = originalName.equals("") ? getValidId("SubTask", String.valueOf(i + 1)) : getValidId(originalName, String.valueOf(i + 1));
+                String id = task.getAttribute("id");
                 String incoming = "";
                 String outgoing = "";
                 ArrayList<Participant> choreoParticipants = new ArrayList<>();
@@ -252,7 +255,8 @@ public class YaoqiangXMLParser {
                 Connector out = getConnector(outgoing);
                 ChoreographyTask ct = new ChoreographyTask(
                         id,
-                        name,
+                        componentName,
+                        originalName,
                         initiating,
                         choreoParticipants,
                         messageFlowIds
@@ -278,8 +282,9 @@ public class YaoqiangXMLParser {
             Node node = gatewayList.item(i);
             if (node.getNodeType() == Node.ELEMENT_NODE) {
                 Element gateway = (Element) node;
-                String name = gateway.getAttribute("name");
-                String id = getValidId(name.equals("")? "model.Gateway" : name, String.valueOf(i + 1));
+                String originalName = gateway.getAttribute("name");
+                String componentName = getValidId(originalName.equals("")? "Gateway" : originalName, String.valueOf(i + 1));
+                String id = gateway.getAttribute("id");
                 ArrayList<String> incomings = new ArrayList<>();
                 ArrayList<String> outgoings = new ArrayList<>();
                 NodeList insideInfoNode = gateway.getChildNodes();
@@ -299,7 +304,8 @@ public class YaoqiangXMLParser {
                     }
                 }
                 Gateway eg = new Gateway(
-                        name,
+                        componentName,
+                        originalName,
                         id,
                         incomings,
                         outgoings,
@@ -390,11 +396,12 @@ public class YaoqiangXMLParser {
         for (int j = 0; j < nodes.getLength(); j++) {
 
             Element start = (Element) nodes.item(j);
-            String name = start.getAttribute("name");
-            if (name == null || name.isEmpty()) {
-                name = "Start";
+            String originalName = start.getAttribute("name");
+            if (originalName == null || originalName.isEmpty()) {
+                originalName = "Start";
             }
-            String startId = getValidId(name, String.valueOf(j+1));
+            String id = start.getAttribute("id");
+            String componentName = getValidId(originalName, String.valueOf(j+1));
             NodeList outgoingNodeList = start.getElementsByTagName("outgoing");
             ArrayList<String> outgoingIds = new ArrayList<>();
             for (int i = 0; i < outgoingNodeList.getLength(); i++) {
@@ -403,7 +410,7 @@ public class YaoqiangXMLParser {
                     outgoingIds.add(outgoingNode.getTextContent());
                 }
             }
-            StartEvent newStart = new StartEvent(name, startId, outgoingIds);
+            StartEvent newStart = new StartEvent(componentName, originalName, id, outgoingIds);
             startEvents.add(newStart);
             for (String cId : outgoingIds) {
                 Connector cnn = getConnector(cId);
@@ -433,11 +440,12 @@ public class YaoqiangXMLParser {
         for (int j = 0; j < nodes.getLength(); j++) {
 
             Element end = (Element) nodes.item(j);
-            String name = end.getAttribute("name");
-            if (name == null || name.isEmpty()) {
-                name = "End";
+            String originalName = end.getAttribute("name");
+            if (originalName == null || originalName.isEmpty()) {
+                originalName = "End";
             }
-            String endId = getValidId(name, String.valueOf(j+1));
+            String componentName = getValidId(originalName, String.valueOf(j+1));
+            String id = end.getAttribute("id");
             NodeList incomingNodeList = end.getElementsByTagName("incoming");
             ArrayList<String> incomingIds = new ArrayList<>();
             for (int i = 0; i < incomingNodeList.getLength(); i++) {
@@ -446,7 +454,7 @@ public class YaoqiangXMLParser {
                     incomingIds.add(incomingNode.getTextContent());
                 }
             }
-            EndEvent newEnd = new EndEvent(name, endId, incomingIds);
+            EndEvent newEnd = new EndEvent(componentName, originalName, id, incomingIds);
             endEvents.add(newEnd);
             for (String cId : incomingIds) {
                 Connector cnn = getConnector(cId);
@@ -576,19 +584,19 @@ public class YaoqiangXMLParser {
          .append("\t\tcompose {\n");
         for (int i = 0; i < startEvents.size(); i++) {
             startEvents.get(i).setInstanceName(i == 0? "i": "i" + (i+1));
-            s.append(i == 0? "\t\t\t" : "\t\t\tand ").append(startEvents.get(i).getInstanceName()).append(" is ").append(startEvents.get(i).getId()).append("()\n");
+            s.append(i == 0? "\t\t\t" : "\t\t\tand ").append(startEvents.get(i).getInstanceName()).append(" is ").append(startEvents.get(i).getName()).append("()\n");
         }
         for (int i = 0; i < tasks.size(); i++) {
             tasks.get(i).setInstanceName(i == 0? "t": "t" + (i+1));
-            s.append("\t\t\tand ").append(tasks.get(i).getInstanceName()).append(" is ").append(tasks.get(i).getId()).append("()\n");
+            s.append("\t\t\tand ").append(tasks.get(i).getInstanceName()).append(" is ").append(tasks.get(i).getName()).append("()\n");
         }
         for (int i = 0; i < gateways.size(); i++) {
             gateways.get(i).setInstanceName(i == 0? "gw": "gw" + (i+1));
-            s.append("\t\t\tand ").append(gateways.get(i).getInstanceName()).append(" is ").append(gateways.get(i).getId()).append("()\n");
+            s.append("\t\t\tand ").append(gateways.get(i).getInstanceName()).append(" is ").append(gateways.get(i).getName()).append("()\n");
         }
         for (int i = 0; i < endEvents.size(); i++) {
             endEvents.get(i).setInstanceName(i == 0? "f": "f" + (i+1));
-            s.append("\t\t\tand ").append(endEvents.get(i).getInstanceName()).append(" is ").append(endEvents.get(i).getId()).append("()\n");
+            s.append("\t\t\tand ").append(endEvents.get(i).getInstanceName()).append(" is ").append(endEvents.get(i).getName()).append("()\n");
         }
         for (int i = 0; i < connectors.size(); i++) {
             connectors.get(i).setInstanceName(i == 0? "c": "c" + (i+1));
@@ -672,11 +680,32 @@ public class YaoqiangXMLParser {
         return unificationsMatch;
     }
 
-    public String getComponentsOriginalName(String componentId) {
-        Component c = getComponent(componentId);
-        if (c == null) {
-            return null;
+    public String getComponentsOriginalName(String instanceName) {
+        for (StartEvent s : startEvents) {
+            if (s.getInstanceName().equals(instanceName)) {
+                return s.getOriginalName();
+            }
         }
-        return c.getName();
+        for (EndEvent e : endEvents) {
+            if (e.getInstanceName().equals(instanceName)) {
+                return e.getOriginalName();
+            }
+        }
+        for (ChoreographyTask ct : tasks) {
+            if (ct.getInstanceName().equals(instanceName)) {
+                return ct.getOriginalName();
+            }
+        }
+        for (Gateway g : gateways) {
+            if (g.getInstanceName().equals(instanceName)) {
+                return g.getOriginalName();
+            }
+        }
+        return null;
+//        Component c = getComponent(componentId);
+//        if (c == null) {
+//            return null;
+//        }
+//        return c.getName();
     }
 }

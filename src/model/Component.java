@@ -3,10 +3,12 @@ package model;
 public abstract class Component {
     private String name;
     private String instanceName;
+    private String originalName;
     private String id;
 
-    public Component(String name, String id) {
+    public Component(String name, String originalName, String id) {
         this.name = name;
+        this.originalName = originalName;
         this.id = id;
     }
 
@@ -16,6 +18,14 @@ public abstract class Component {
 
     public void setInstanceName(String instanceName) {
         this.instanceName = instanceName;
+    }
+
+    public String getOriginalName() {
+        return originalName;
+    }
+
+    public void setOriginalName(String originalName) {
+        this.originalName = originalName;
     }
 
     public String getId() {
