@@ -66,9 +66,13 @@ public class YaoqiangXMLParser {
                 Element participant = (Element) node;
                 String participantId = participant.getAttribute("id");
                 String participantName = participant.getAttribute("name");
-                participants.add(new Participant(participantId, participantName, participantName.replaceAll(" ", "")));
+                participants.add(new Participant(participantId, participantName, removeNonAlphanumericSymbols(participantName)));
             }
         }
+    }
+
+    private String removeNonAlphanumericSymbols(String str) {
+        return str.replaceAll("[^a-zA-Z0-9]", "");
     }
 
     private void parseMessage(Document doc) {
