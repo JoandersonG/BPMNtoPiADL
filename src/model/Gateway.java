@@ -35,7 +35,7 @@ public class Gateway extends Component {
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder();
-        s.append("    Name: '").append(getName()).append("'    Type: ").append(type).append("    id: ").append(getId());
+        s.append("    Name: '").append(getComponentName()).append("'    Type: ").append(type).append("    id: ").append(getId());
         s.append("\n\t    Incoming: ");
         for (String inc : incomings) {
             s.append(inc).append("\t");
@@ -57,7 +57,7 @@ public class Gateway extends Component {
 
     private String parallelGatewayToPiADL() {
         StringBuilder s = new StringBuilder();
-        s.append("component ").append(getName()).append(" is abstraction (){\n");
+        s.append("component ").append(getComponentName()).append(" is abstraction (){\n");
         for (int i = 0; i < incomings.size(); i++) {
             incomings.set(i, "entrada" + (i+1));
             s.append("\tconnection ").append(incomings.get(i)).append(" is in (Integer)\n");
@@ -106,7 +106,7 @@ public class Gateway extends Component {
 
     private String exclusiveGatewayToPiADL() {
         StringBuilder s = new StringBuilder();
-        s.append("component ").append(getName()).append(" is abstraction (){\n");
+        s.append("component ").append(getComponentName()).append(" is abstraction (){\n");
         for (int i = 0; i < incomings.size(); i++) {
             incomings.set(i, "entrada" + (i+1));
             s.append("\tconnection ").append(incomings.get(i)).append(" is in (Integer)\n");

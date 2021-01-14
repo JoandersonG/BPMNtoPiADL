@@ -34,10 +34,10 @@ public class Unification {
         return (fromComp == null ? "<desconhecido>" : fromComp.getInstanceName()) +
                 "::" + fromPort + " unifies " +
                 (connector == null ? "<desconhecido>::desconhecido" : connector.getInstanceName() +
-                "::" + "de" + connector.getFrom().getName()) +
+                "::" + "de" + connector.getFrom().getComponentName()) +
                 "\n\t\t\t" +
                 (connector == null ? "<desconhecido>::desconhecido" : connector.getInstanceName() +
-                "::" + "para" + connector.getTo().getName()) + " unifies " +
+                "::" + "para" + connector.getTo().getComponentName()) + " unifies " +
                 (toComp == null ? "<desconhecido>": toComp.getInstanceName()) +
                 "::" + toPort;
     }

@@ -25,12 +25,12 @@ public class EndEvent extends Component {
             s.append(incoming).append("\t");
         }
         s.append("\n");
-        return "    Name: '" + getName() + "'    id: " + getId() + "    Incoming: " + s.toString();
+        return "    Name: '" + getComponentName() + "'    id: " + getId() + "    Incoming: " + s.toString();
     }
 
     public String toPiADL() {
         StringBuilder piADLcode = new StringBuilder();
-        piADLcode.append("component ").append(getName()).append(" is abstraction (){\n");
+        piADLcode.append("component ").append(getComponentName()).append(" is abstraction (){\n");
         for (int i = 0; i < incomings.size(); i++) {
             incomings.set(i, "entrada_" + (i+1));
             piADLcode.append("\tconnection ").append(incomings.get(i)).append(" is in (Integer)\n");

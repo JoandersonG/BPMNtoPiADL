@@ -55,16 +55,16 @@ public class Connector {
     public String toPiADL() {
         StringBuilder piADLcode = new StringBuilder();
         piADLcode.append("connector ").append(name).append(" is abstraction (){\n");
-        piADLcode.append("\tconnection ").append("de").append((from != null ? from.getName() : "Sem id")).append(" is in (Integer)\n");
-        piADLcode.append("\tconnection ").append("para").append((to != null ? to.getName() : "Sem id")).append(" is out (Integer)\n");
+        piADLcode.append("\tconnection ").append("de").append((from != null ? from.getComponentName() : "Sem id")).append(" is in (Integer)\n");
+        piADLcode.append("\tconnection ").append("para").append((to != null ? to.getComponentName() : "Sem id")).append(" is out (Integer)\n");
         piADLcode.append("\tprotocol is {\n")
-                .append("\t\t(via ").append("de").append((from != null ? from.getName() : "Sem id")).append(" receive Integer |")
-                .append(" via ").append("para").append((to != null ? to.getName() : "Sem id")).append(" send Integer)*\n")
+                .append("\t\t(via ").append("de").append((from != null ? from.getComponentName() : "Sem id")).append(" receive Integer |")
+                .append(" via ").append("para").append((to != null ? to.getComponentName() : "Sem id")).append(" send Integer)*\n")
                 .append("\t}\n")
                 .append("\tbehavior is {\n")
-                .append("\t\tvia ").append("de").append((from != null ? from.getName() : "Sem id")
+                .append("\t\tvia ").append("de").append((from != null ? from.getComponentName() : "Sem id")
         ).append(" receive x : Integer\n")
-                .append("\t\tvia ").append("para").append((to != null ? to.getName() : "Sem id")).append(" send x\n")
+                .append("\t\tvia ").append("para").append((to != null ? to.getComponentName() : "Sem id")).append(" send x\n")
                 .append("\t\tbehavior()\n")
                 .append("\t}\n")
                 .append("}\n");
@@ -77,7 +77,7 @@ public class Connector {
 
     @Override
     public String toString() {
-        return "Id:" + id + "    From: " + (from != null ? from.getName() : "Sem nome") +
-                "    To: " + (to != null ? to.getName() : "Sem nome") ;
+        return "Id:" + id + "    From: " + (from != null ? from.getComponentName() : "Sem nome") +
+                "    To: " + (to != null ? to.getComponentName() : "Sem nome") ;
     }
 }

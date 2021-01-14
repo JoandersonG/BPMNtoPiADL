@@ -584,19 +584,19 @@ public class YaoqiangXMLParser {
          .append("\t\tcompose {\n");
         for (int i = 0; i < startEvents.size(); i++) {
             startEvents.get(i).setInstanceName(i == 0? "i": "i" + (i+1));
-            s.append(i == 0? "\t\t\t" : "\t\t\tand ").append(startEvents.get(i).getInstanceName()).append(" is ").append(startEvents.get(i).getName()).append("()\n");
+            s.append(i == 0? "\t\t\t" : "\t\t\tand ").append(startEvents.get(i).getInstanceName()).append(" is ").append(startEvents.get(i).getComponentName()).append("()\n");
         }
         for (int i = 0; i < tasks.size(); i++) {
             tasks.get(i).setInstanceName(i == 0? "t": "t" + (i+1));
-            s.append("\t\t\tand ").append(tasks.get(i).getInstanceName()).append(" is ").append(tasks.get(i).getName()).append("()\n");
+            s.append("\t\t\tand ").append(tasks.get(i).getInstanceName()).append(" is ").append(tasks.get(i).getComponentName()).append("()\n");
         }
         for (int i = 0; i < gateways.size(); i++) {
             gateways.get(i).setInstanceName(i == 0? "gw": "gw" + (i+1));
-            s.append("\t\t\tand ").append(gateways.get(i).getInstanceName()).append(" is ").append(gateways.get(i).getName()).append("()\n");
+            s.append("\t\t\tand ").append(gateways.get(i).getInstanceName()).append(" is ").append(gateways.get(i).getComponentName()).append("()\n");
         }
         for (int i = 0; i < endEvents.size(); i++) {
             endEvents.get(i).setInstanceName(i == 0? "f": "f" + (i+1));
-            s.append("\t\t\tand ").append(endEvents.get(i).getInstanceName()).append(" is ").append(endEvents.get(i).getName()).append("()\n");
+            s.append("\t\t\tand ").append(endEvents.get(i).getInstanceName()).append(" is ").append(endEvents.get(i).getComponentName()).append("()\n");
         }
         for (int i = 0; i < connectors.size(); i++) {
             connectors.get(i).setInstanceName(i == 0? "c": "c" + (i+1));

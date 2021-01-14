@@ -1,13 +1,13 @@
 package model;
 
 public abstract class Component {
-    private String name;
+    private String componentName;
     private String instanceName;
     private String originalName;
     private String id;
 
-    public Component(String name, String originalName, String id) {
-        this.name = name;
+    public Component(String componentName, String originalName, String id) {
+        this.componentName = componentName;
         this.originalName = originalName;
         this.id = id;
     }
@@ -36,12 +36,12 @@ public abstract class Component {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getComponentName() {
+        return componentName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setComponentName(String componentName) {
+        this.componentName = componentName;
     }
 
     public abstract String toPiADL();
