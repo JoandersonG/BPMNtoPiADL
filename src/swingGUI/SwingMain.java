@@ -5,7 +5,9 @@ import model.YaoqiangXMLParser;
 import org.xml.sax.SAXException;
 import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
+import java.awt.*;
 import java.io.*;
+import java.net.URL;
 
 public class SwingMain {
     private JPanel mainPanel;
@@ -216,6 +218,9 @@ public class SwingMain {
         JFrame frame = new JFrame("Geração de pi-ADL e teste de deadlock");
         frame.setContentPane((new SwingMain()).mainPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        URL iconURL = SwingMain.class.getResource("/iconTD.png");
+        ImageIcon icon = new ImageIcon(iconURL);
+        frame.setIconImage(icon.getImage());
         frame.pack();
         frame.setSize(830,400);
         frame.setResizable(false);
