@@ -166,7 +166,7 @@ public class YaoqiangXMLParser {
                 Element task = (Element) node;
                 Participant initiating = getParticipant(task.getAttribute("initiatingParticipantRef"));
                 String originalName = task.getAttribute("name");
-                String componentName = originalName.equals("") ? getValidId("Task", String.valueOf(i + 1)) : getValidId(originalName, String.valueOf(i + 1));
+                String componentName = originalName.equals("") ? getUniqueComponentName("Task", String.valueOf(i + 1)) : getUniqueComponentName(originalName, String.valueOf(i + 1));
                 String id = task.getAttribute("id");
                 String incoming = "";
                 String outgoing = "";
@@ -223,7 +223,7 @@ public class YaoqiangXMLParser {
                 Element task = (Element) node;
                 Participant initiating = getParticipant(task.getAttribute("initiatingParticipantRef"));
                 String originalName = task.getAttribute("name");
-                String componentName = originalName.equals("") ? getValidId("SubTask", String.valueOf(i + 1)) : getValidId(originalName, String.valueOf(i + 1));
+                String componentName = originalName.equals("") ? getUniqueComponentName("SubTask", String.valueOf(i + 1)) : getUniqueComponentName(originalName, String.valueOf(i + 1));
                 String id = task.getAttribute("id");
                 String incoming = "";
                 String outgoing = "";
@@ -283,7 +283,7 @@ public class YaoqiangXMLParser {
             if (node.getNodeType() == Node.ELEMENT_NODE) {
                 Element gateway = (Element) node;
                 String originalName = gateway.getAttribute("name");
-                String componentName = getValidId(originalName.equals("")? "Gateway" : originalName, String.valueOf(i + 1));
+                String componentName = getUniqueComponentName(originalName.equals("")? "Gateway" : originalName, String.valueOf(i + 1));
                 String id = gateway.getAttribute("id");
                 ArrayList<String> incomings = new ArrayList<>();
                 ArrayList<String> outgoings = new ArrayList<>();
@@ -335,7 +335,7 @@ public class YaoqiangXMLParser {
     /*
     * Method for creating a valid task name given a name possibly with blank spaces and special characters
     */
-    private String getValidId(String name, String id) {
+    private String getUniqueComponentName(String name, String id) {
         name = removerAcentos(name);
         String[] splitName = name.split("[^a-zA-Z0-9_]");
         StringBuilder sb = new StringBuilder();
@@ -401,7 +401,7 @@ public class YaoqiangXMLParser {
                 originalName = "Start";
             }
             String id = start.getAttribute("id");
-            String componentName = getValidId(originalName, String.valueOf(j+1));
+            String componentName = getUniqueComponentName(originalName, String.valueOf(j+1));
             NodeList outgoingNodeList = start.getElementsByTagName("outgoing");
             ArrayList<String> outgoingIds = new ArrayList<>();
             for (int i = 0; i < outgoingNodeList.getLength(); i++) {
@@ -444,7 +444,7 @@ public class YaoqiangXMLParser {
             if (originalName == null || originalName.isEmpty()) {
                 originalName = "End";
             }
-            String componentName = getValidId(originalName, String.valueOf(j+1));
+            String componentName = getUniqueComponentName(originalName, String.valueOf(j+1));
             String id = end.getAttribute("id");
             NodeList incomingNodeList = end.getElementsByTagName("incoming");
             ArrayList<String> incomingIds = new ArrayList<>();
