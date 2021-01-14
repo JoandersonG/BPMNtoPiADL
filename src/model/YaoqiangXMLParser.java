@@ -351,35 +351,35 @@ public class YaoqiangXMLParser {
             }
             sb.append(piece);
         }
-        if (thereIsSuchId(sb.toString())) {
+        if (thereIsSuchComponentName(sb.toString())) {
             sb.append(id);
         }
         int i = 1;
-        while (thereIsSuchId(sb.toString())) {
+        while (thereIsSuchComponentName(sb.toString())) {
             sb.append(i);
             i++;
         }
         return sb.toString();
     }
 
-    private boolean thereIsSuchId(String id) {
+    private boolean thereIsSuchComponentName(String id) {
         for (ChoreographyTask t : tasks) {
-            if (t.getId().equals(id)) {
+            if (t.getComponentName().equals(id)) {
                 return true;
             }
         }
         for (StartEvent s : startEvents) {
-            if (s.getId().equals(id)) {
+            if (s.getComponentName().equals(id)) {
                 return true;
             }
         }
         for (EndEvent e : endEvents) {
-            if (e.getId().equals(id)) {
+            if (e.getComponentName().equals(id)) {
                 return true;
             }
         }
         for (Gateway g : gateways) {
-            if (g.getId().equals(id)) {
+            if (g.getComponentName().equals(id)) {
                 return true;
             }
         }
