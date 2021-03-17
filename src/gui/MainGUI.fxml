@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="459.0" prefWidth="688.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.MainGUI">
+<AnchorPane prefHeight="459.0" prefWidth="688.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainGUI">
    <ToggleButton fx:id="aboutMenuButton" layoutY="331.0" mnemonicParsing="false" onAction="#aboutMenuHandleOnClick" prefHeight="128.0" prefWidth="147.0" styleClass="menu-button" text="Sobre a Aplicação" textFill="WHITE" />
    <ToggleButton fx:id="testDeadlockMenuButton" layoutY="203.0" mnemonicParsing="false" onAction="#testDeadlockMenuHandleOnClick" prefHeight="128.0" prefWidth="147.0" styleClass="menu-button" text="Testar Deadlock" textFill="WHITE" />
    <ToggleButton fx:id="piADLMenuButton" layoutY="79.0" mnemonicParsing="false" onAction="#piADLMenuButtonHandleOnClick" prefHeight="128.0" prefWidth="147.0" selected="true" styleClass="menu-button" text="Gerar pi-ADL" textFill="WHITE" />
@@ -17,7 +17,7 @@
          </Text>
       </children>
    </AnchorPane>
-   <AnchorPane fx:id="apPiADL" layoutX="145.0" layoutY="79.0" prefHeight="377.0" prefWidth="543.0">
+   <AnchorPane fx:id="apPiADL" layoutX="145.0" layoutY="79.0" prefHeight="377.0" prefWidth="543.0" visible="false">
       <children>
          <Button layoutX="350.0" layoutY="94.0" mnemonicParsing="false" onAction="#chooseFilePiADL" prefHeight="29.0" prefWidth="171.0" style="." styleClass="select-file-button" text="Selecionar arquivo" />
          <Button layoutX="350.0" layoutY="201.0" mnemonicParsing="false" onAction="#generatePiADL" prefHeight="29.0" prefWidth="171.0" styleClass="generate-piadl-button" text="gerar pi-ADL" textFill="WHITE" />
@@ -47,7 +47,7 @@
          <Hyperlink layoutX="166.0" layoutY="262.0" onAction="#handleHyperlinkClick" text="(link)" />
       </children>
    </AnchorPane>
-   <AnchorPane fx:id="apDeadlockTest" layoutX="155.0" layoutY="89.0" prefHeight="368.0" prefWidth="531.0" visible="false">
+   <AnchorPane fx:id="apDeadlockTest" layoutX="155.0" layoutY="89.0" prefHeight="368.0" prefWidth="531.0">
       <children>
          <Button layoutX="340.0" layoutY="94.0" mnemonicParsing="false" onAction="#chooseFileDeadlockTest" prefHeight="29.0" prefWidth="171.0" style="." styleClass="select-file-button" text="Selecionar arquivo" />
          <Button layoutX="10.0" layoutY="238.0" mnemonicParsing="false" onAction="#testDeadlock" prefHeight="29.0" prefWidth="499.0" styleClass="generate-piadl-button" text="Testar Deadlocks" textFill="WHITE" />

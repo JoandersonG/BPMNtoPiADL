@@ -6,5 +6,5 @@ module BPMNtoPiADL {
     requires java.xml;
     requires java.desktop;
 
-    opens GUI;
+    opens gui;
 }

@@ -1,4 +1,4 @@
-package GUI;
+package gui;
 
 import deadlockTest.TestDeadlock;
 import javafx.application.Application;
@@ -21,6 +21,19 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 
 public class MainGUI extends Application {
+    public MainGUI() {
+        super();
+    }
+
+    @Override
+    public void init() throws Exception {
+        super.init();
+    }
+
+    @Override
+    public void stop() throws Exception {
+        super.stop();
+    }
 
     public Text txtResultDeadlockTest;
     public TextField tfFilePathDeadlockTest;
@@ -50,7 +63,7 @@ public class MainGUI extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/GUI/MainGUI.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/gui/MainGUI.fxml"));
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("Teste de Deadlock");
         Scene scene = new Scene(root, 681, 455);
