@@ -567,6 +567,7 @@ public class YaoqiangXMLParser {
         return s.toString();
     }
 
+    /*Finds Connector which has from field with a component that has cId as it's Id*/
     private ArrayList<Connector> findConnectorFrom(String cId) {
         ArrayList<Connector> conns = new ArrayList<>();
         for (Connector con : connectors) {
