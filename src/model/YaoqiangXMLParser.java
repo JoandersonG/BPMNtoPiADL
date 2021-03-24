@@ -606,7 +606,6 @@ public class YaoqiangXMLParser {
                 s.append(conn.toPiADL("Integer"));
             }
             if (!alreadyRead.contains(conn.getTo())) {
-                s.append(toPiADL(alreadyRead, conn.getTo()));
                 alreadyRead.add(conn.getTo());
                 s.append(toPiADL(alreadyRead, conn.getTo()));
             }
@@ -798,10 +797,93 @@ public class YaoqiangXMLParser {
             }
         }
         return null;
-//        Component c = getComponent(componentId);
-//        if (c == null) {
-//            return null;
-//        }
-//        return c.getName();
+    }
+
+    //method that returns more advanced Component or connection from elementIds, i.e, the component closest to the end components
+    public Component getMoreAdvancedElementByListOfId(ArrayList<String> elementIds) {
+        String longestId = elementIds.get(0);
+        int longestNum = -1;
+        for (int i = 0; i < elementIds.size(); i++) {
+            int aux = findElement(startEvents.get(0), elementIds.get(i), 0); //todo: modify for multiple start events
+            if (aux > longestNum) {
+                longestNum = aux;
+                longestId = elementIds.get(i);
+            }
+        }
+
+        Connector connector = getConnectorByInstanceName(longestId);
+        if (connector != null) return connector.getTo();
+
+        else {
+            Component component = getComponentByInstanceName(longestId);
+            if (component == null) return null;
+            //gets next component, which was the one where deadlock occurred
+            connector = findConnectorFrom(component.getId()).get(0); //there will be only one connector
+
+            //TODO: or is it the next component?
+            return connector.getTo();
+        }
+    }
+
+    private Component getComponentByInstanceName(String id) {
+        for (StartEvent s : startEvents) {
+            if (s.getInstanceName().equals(id)) {
+                return s;
+            }
+        }
+        for (EndEvent e : endEvents) {
+            if (e.getInstanceName().equals(id)) {
+                return e;
+            }
+        }
+        for (ChoreographyTask ct : tasks) {
+            if (ct.getInstanceName().equals(id)) {
+                return ct;
+            }
+        }
+        for (Gateway g : gateways) {
+            if (g.getInstanceName().equals(id)) {
+                return g;
+            }
+        }
+        return null;
+    }
+
+    private Connector getConnectorByInstanceName(String id) {
+        for (Connector c : connectors) {
+            if (c.getInstanceName().equals(id)) {
+                return c;
+            }
+        }
+        return null;
+    }
+
+    private int findElement(Connector current, String targetId, int i) {
+        //recursion base cases
+        if (current.getInstanceName().equals(targetId)) return i;
+        if (current.getTo() instanceof EndEvent) return -1;
+
+        //current connector is not the element being searched
+        return findElement(current.getTo(), targetId, i + 1);
+    }
+
+    private int findElement(Component current, String targetId, int i) {
+        //recursion base cases
+        if (current.getInstanceName().equals(targetId)) return i;
+        if (current instanceof EndEvent) return -1;
+
+        //current connector is not the element being searched
+        ArrayList<Connector> connectors = findConnectorFrom(current.getId());
+        int longestSize = -1;
+        for (Connector c : connectors) {
+            //don't go into message exchange components
+            if (c.getTo() instanceof ParticipantTask) continue;
+
+            int aux = findElement(c, targetId, i + 1);
+            if (aux > longestSize) {
+                longestSize = aux;
+            }
+        }
+        return longestSize;
     }
 }

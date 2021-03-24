@@ -161,7 +161,7 @@ public class PlasmaInterfaceCodeManager {
         "           os.Exit(0)\n" +
         "			p.commands_sent = 0\n" +
         "		}\n" +
-        "		_ = l\n" +
+        "		fmt.Println(current_cycle, l)\n" +
         "		p.read_lines++\n" +
         "		p.commands_sent++\n" +
         "	}\n" +
