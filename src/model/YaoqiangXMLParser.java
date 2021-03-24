@@ -17,6 +17,7 @@ import static java.lang.System.exit;
 public class YaoqiangXMLParser {
 
     ArrayList<Participant> participants;
+    ArrayList<ParticipantTask> participantTasks;
     ArrayList<Message> messages;
     ArrayList<MessageFlow> messageFlows;
     ArrayList<Connector> connectors;
@@ -28,6 +29,7 @@ public class YaoqiangXMLParser {
 
     public YaoqiangXMLParser() throws ParserConfigurationException {
         participants = new ArrayList<>();
+        participantTasks = new ArrayList<>();
         messages = new ArrayList<>();
         messageFlows = new ArrayList<>();
         connectors = new ArrayList<>();
@@ -194,6 +196,9 @@ public class YaoqiangXMLParser {
                         }
                     }
                 }
+                for (Participant p : choreoParticipants) {
+                    p.addConnections(p.equals(initiating) ? Participant.Role.START : Participant.Role.SECONDARY, id);
+                }
                 Connector in = getConnector(incoming);
                 Connector out = getConnector(outgoing);
                 ChoreographyTask ct = new ChoreographyTask(
@@ -250,6 +255,9 @@ public class YaoqiangXMLParser {
                                 break;
                         }
                     }
+                }
+                for (Participant p : choreoParticipants) {
+                    p.addConnections(p.equals(initiating) ? Participant.Role.START : Participant.Role.SECONDARY, id);
                 }
                 Connector in = getConnector(incoming);
                 Connector out = getConnector(outgoing);
@@ -546,6 +554,40 @@ public class YaoqiangXMLParser {
         StringBuilder piADLcode = new StringBuilder();
         //Gerar código navegando por elementos:
         ArrayList<Component> alreadyRead = new ArrayList<>();
+        for (Participant p : participants) {
+            for (int i = 0; i < p.getAllConnections().size(); i++) {
+                Connection conn = p.getAllConnections().get(i);
+                if (conn.getType() == Connection.Type.IN) {
+                    ParticipantTask newPart = new ParticipantTask(p, p.getNewName(),p.getName(), p.getValidId());
+                    if (!participantTasks.contains(newPart)) {
+                        participantTasks.add(newPart);
+                    }
+                    Component comp = getComponent(conn.getTaskId());
+                    ParticipantTask pt = participantTasks.get(participantTasks.indexOf(newPart));
+                    Connector c = new Connector(
+                            "Msg" + (i+1) + ((comp == null) ? "" : comp.getComponentName()) + pt.getComponentName(),
+                            Connector.getValidId(),
+                            comp,
+                            pt
+                    );
+                    connectors.add(c);
+                } else {
+                    ParticipantTask newPart = new ParticipantTask(p, p.getNewName(),p.getName(), p.getValidId());
+                    if (!participantTasks.contains(newPart)) {
+                        participantTasks.add(newPart);
+                    }
+                    ParticipantTask pt = participantTasks.get(participantTasks.indexOf(newPart));
+                    Component comp = getComponent(conn.getTaskId());
+                    Connector c = new Connector(
+                            "Msg" + (i+1) + ((comp == null) ? "" : comp.getComponentName()) + pt.getComponentName(),
+                            Connector.getValidId(),
+                            pt,
+                            comp
+                    );
+                    connectors.add(c);
+                }
+            }
+        }
         for (StartEvent s : startEvents) {
             piADLcode.append(toPiADL(alreadyRead, s));
         }
@@ -558,10 +600,15 @@ public class YaoqiangXMLParser {
         s.append(component.toPiADL());
         ArrayList<Connector> connectors = findConnectorFrom(component.getId());
         for (Connector conn : connectors) {
-            s.append(conn.toPiADL());
+            if ( conn.getTo() instanceof ParticipantTask || conn.getFrom() instanceof ParticipantTask) {
+                s.append(conn.toPiADL("String"));
+            } else {
+                s.append(conn.toPiADL("Integer"));
+            }
             if (!alreadyRead.contains(conn.getTo())) {
                 s.append(toPiADL(alreadyRead, conn.getTo()));
                 alreadyRead.add(conn.getTo());
+                s.append(toPiADL(alreadyRead, conn.getTo()));
             }
         }
         return s.toString();
@@ -590,6 +637,10 @@ public class YaoqiangXMLParser {
         for (int i = 0; i < tasks.size(); i++) {
             tasks.get(i).setInstanceName(i == 0? "t": "t" + (i+1));
             s.append("\t\t\tand ").append(tasks.get(i).getInstanceName()).append(" is ").append(tasks.get(i).getComponentName()).append("()\n");
+        }
+        for (int i = 0; i < participantTasks.size(); i++) {
+            participantTasks.get(i).setInstanceName(i == 0? "pt": "pt" + (i+1));
+            s.append("\t\t\tand ").append(participantTasks.get(i).getInstanceName()).append(" is ").append(participantTasks.get(i).getComponentName()).append("()\n");
         }
         for (int i = 0; i < gateways.size(); i++) {
             gateways.get(i).setInstanceName(i == 0? "gw": "gw" + (i+1));
@@ -620,16 +671,50 @@ public class YaoqiangXMLParser {
                 us.get(i).setFromPort(se.getOutgoings().get(i));
             }
         }
+
+        for (ParticipantTask pt : participantTasks) {
+            ArrayList<Unification> us = findUnificationByFrom(unifications, pt);
+            ArrayList <Connection> froms = pt.getParticipant().getAllFromConnections();
+            for (int i = 0; i < froms.size() && i < us.size(); i++) {
+                Unification u = us.get(i);
+                u.setFromPort(froms.get(i).getName());
+            }
+            us = findUnificationByTo(unifications,pt);
+            for (Unification u : us) {
+                if (u.getToPort() == null || u.getToPort().equals("")) {
+                    u.setToPort(pt.getParticipant().getConnectionName(u.getFromComp().getId(), Connection.Type.IN));
+                }
+            }
+        }
         for (ChoreographyTask ct : tasks) {
             //from
             ArrayList<Unification> us = findUnificationByFrom(unifications, ct);
             for (Unification u : us) {
+                if (! (u.getToComp() instanceof ParticipantTask)) {
                     u.setFromPort(ct.getOutgoing());
+                } else {
+                    for (String out : ct.getOutgoings()) {
+                        ParticipantTask pt = getComponentByPort(out);
+                        if (pt != null && pt.equals(u.getToComp())) {
+                            u.setFromPort(out);
+                        }
+                    }
+                }
             }
+
             //to
             us = findUnificationByTo(unifications, ct);
             for (Unification u : us) {
-                u.setToPort(ct.getIncoming());
+                if (! (u.getFromComp() instanceof ParticipantTask)) {
+                    u.setToPort(ct.getIncoming());
+                } else {
+                    for (String in : ct.getIncomings()) {
+                        ParticipantTask pt = getComponentByPort(in);
+                        if (pt != null && pt.equals(u.getFromComp())) {
+                            u.setToPort(in);
+                        }
+                    }
+                }
             }
         }
         for (Gateway g : gateways) {
@@ -661,6 +746,16 @@ public class YaoqiangXMLParser {
 
         return s.toString();
     }
+
+    private ParticipantTask getComponentByPort(String port) {
+        for (ParticipantTask pt : participantTasks) {
+            if (pt.hasConnection(port)) {
+                return pt;
+            }
+        }
+        return null;
+    }
+
     private ArrayList<Unification> findUnificationByFrom(ArrayList<Unification> unifications, Component comp) {
         ArrayList<Unification> unificationsMatch = new ArrayList<>();
         for (Unification u : unifications) {
