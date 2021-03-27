@@ -29,6 +29,10 @@ public class Unification {
         this.toPort = toPort;
     }
 
+    public String getToPort() {
+        return toPort;
+    }
+
     @Override
     public String toString() {
         return (fromComp == null ? "<desconhecido>" : fromComp.getInstanceName()) +

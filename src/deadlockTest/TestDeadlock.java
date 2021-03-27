@@ -1,10 +1,12 @@
 package deadlockTest;
 
 import java.io.*;
+import java.util.ArrayList;
 
 public class TestDeadlock {
 
-public static String performDeadlockTest(String workingDirectory) {
+public static ArrayList<String> performDeadlockTest(String workingDirectory) {
+    ArrayList<String> result = new ArrayList<>();
 //        //  Copy files into scheduler directory
         try {
             copyFilesToSchedulerDirectory(
@@ -14,7 +16,8 @@ public static String performDeadlockTest(String workingDirectory) {
             );
         } catch(IOException e) {
             //TODO: warn user of error
-            return "-1";
+            result.add("-1");
+            return result;
         }
         try {
             // Change permissions of compile program
@@ -50,7 +53,19 @@ public static String performDeadlockTest(String workingDirectory) {
 
             //    Execute model internally looking for deadlock message
             String programName = getProgramName(workingDirectory);
-            String result = execProgramAsChildProcess(workingDirectory + "/./" + programName);
+            result.addAll(execProgramAsChildProcess(workingDirectory + "/./" + programName));
+
+            //keep only component and connectors ids:
+            result.replaceAll( (res) -> res = res.replaceFirst("0 rdv _", "").split("[.]")[0]);
+            //remove duplicates
+            ArrayList<String> aux = new ArrayList<>();
+            for (String res : result) {
+                if (! aux.contains(res)) {
+                    aux.add(res);
+                }
+            }
+            result = aux;
+
             System.out.println("Result:\n " + result);
             //    Copy regular scheduler files into scheduler directory
             copyFilesToSchedulerDirectory(
@@ -64,7 +79,8 @@ public static String performDeadlockTest(String workingDirectory) {
         } catch (IOException | InterruptedException exception) {
             exception.printStackTrace();
             //TODO: warn user of error
-            return "-1";
+            result.add("-1");
+            return result;
         }
     }
 
@@ -81,7 +97,8 @@ public static String performDeadlockTest(String workingDirectory) {
         return null;
     }
 
-    private static String execProgramAsChildProcess(String newProgram) throws IOException, InterruptedException {
+    private static ArrayList<String> execProgramAsChildProcess(String newProgram) throws IOException, InterruptedException {
+        ArrayList<String> result = new ArrayList<>();
         Process exec = Runtime.getRuntime().exec(new String[] { newProgram, "" });
         exec.waitFor();
         InputStreamReader isr = new InputStreamReader(exec.getInputStream());
@@ -90,17 +107,18 @@ public static String performDeadlockTest(String workingDirectory) {
         String line = null;
         StringBuilder sb = new StringBuilder();
         while ((line = reader.readLine()) != null) {
-            if (line.matches("d.*") || line.matches("n.*")) {
+            if (line.matches("0 rdv .*")) {
+                result.add(line);
+            }
+            if (line.matches("d.*") || line.matches("n.*")) {//TODO: deixar isso aqui?
                 System.out.println(line);
                 sb.append(line);
+                result.add(line);
             }
-        }
-        if (sb.toString().equals("")) {
-            return "Não foi detectado nenhum deadlock no modelo";
         }
         isr.close();
         reader.close();
-        return sb.toString();
+        return result;
     }
 
     private static void copyFilesToSchedulerDirectory(String workingDirectory, String schedulerCode, String plasmaInterfaceCode) throws IOException {

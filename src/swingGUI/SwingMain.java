@@ -1,13 +1,15 @@
 package swingGUI;
 
 import deadlockTest.TestDeadlock;
+import model.Component;
+import model.EndEvent;
 import model.YaoqiangXMLParser;
 import org.xml.sax.SAXException;
 import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
-import java.awt.*;
 import java.io.*;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class SwingMain {
     private JPanel mainPanel;
@@ -196,22 +198,54 @@ public class SwingMain {
             return;
         }
         String workingDirectory = tfDeadlockPath.getText().substring(0, tfDeadlockPath.getText().lastIndexOf("/"));
-        String result = TestDeadlock.performDeadlockTest(workingDirectory);
-        if (result.equals("-1")) {
+        ArrayList<String> result = TestDeadlock.performDeadlockTest(workingDirectory);
+        if (result.size() == 1 && result.get(0).equals("-1")) {
             errorDeadlock.setText("Erro: não foi possível obter retorno de teste de deadlock");
             errorDeadlock.setVisible(true);
             return;
         }
-        if (result.matches("deadlock.*") && parser != null) {
-            //get the element where the deadlock occurred
-            String[] split = result.split(" ");
-            String element = split[split.length - 1];
-            String originalName = parser.getComponentsOriginalName(element.replaceFirst("_",""));
-            if (originalName != null) {
-                result = result.replaceFirst(element, originalName);
+        if (result.get(result.size() - 1).matches("deadlock.*")) {
+            //test where deadlock occurred based on received list of Components and Connectors
+            if (parser == null) {
+                resultDeadlock.setText(result.get(result.size() - 1));
+            } else {
+                result.remove(result.size() - 1);
+
+                Component element = testExecuteResult(result);
+                if (element == null) {
+                    resultDeadlock.setText("Nenhum deadlock ocorreu, podes crer mesmo");
+                    return;
+                }
+                for (int i = 0; i < 15; i++) {
+                    //tries again for making sure it's really a deadlock
+                    result = TestDeadlock.performDeadlockTest(workingDirectory);
+                    if (result.size() == 1 && result.get(0).equals("-1")) {
+                        errorDeadlock.setText("Erro: não foi possível obter retorno de teste de deadlock");
+                        errorDeadlock.setVisible(true);
+                        return;
+                    }
+                    //removing not-an-id last element of result
+                    result.remove(result.size() - 1);
+                    element = testExecuteResult(result);
+                    if (element == null) {
+                        resultDeadlock.setText("Nenhum deadlock ocorreu, podes crer mesmo!");
+                        return;
+                    }
+                }
+                resultDeadlock.setText("Um deadlock ocorreu, podes crer, e aconteceu em " + element.getOriginalName());
             }
+        } else {
+            //no deadlock occurred, just say that to user
+            resultDeadlock.setText("Nenhum deadlock ocorreu, podes crer");
         }
-        resultDeadlock.setText(result);
+    }
+
+    private Component testExecuteResult(ArrayList<String> result) {
+        Component element = parser.getMoreAdvancedElementByListOfId(result);
+        if (element instanceof EndEvent) {
+            return null;
+        }
+        return element;
     }
 
     public static void main(String[] args) {
