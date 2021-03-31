@@ -16,6 +16,7 @@ import static java.lang.System.exit;
 
 public class YaoqiangXMLParser {
 
+    private static YaoqiangXMLParser instance;
     ArrayList<Participant> participants;
     ArrayList<ParticipantTask> participantTasks;
     ArrayList<Message> messages;
@@ -27,7 +28,19 @@ public class YaoqiangXMLParser {
     ArrayList<Gateway> gateways;
     DocumentBuilder builder;
 
-    public YaoqiangXMLParser() throws ParserConfigurationException {
+    public static YaoqiangXMLParser getNewInstance() throws ParserConfigurationException {
+        instance = new YaoqiangXMLParser();
+        return instance;
+    }
+
+    public static YaoqiangXMLParser getInstance() throws ParserConfigurationException {
+        if (instance == null) {
+            instance = new YaoqiangXMLParser();
+        }
+        return instance;
+    }
+
+    private YaoqiangXMLParser() throws ParserConfigurationException {
         participants = new ArrayList<>();
         participantTasks = new ArrayList<>();
         messages = new ArrayList<>();
